@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Okhttp {
     private final OkHttpClient client = new OkHttpClient();
 
-    public void run(String isbn) throws Exception {
+    public void getJsonFromGoogle(String isbn) throws Exception {
         String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
                 + isbn;
 

@@ -11,9 +11,9 @@ public class bookEntity {
     private String translator;
 
     //Json戻り値の型にあわせてvalue objectに変えたほうがいいかも。
-    private String publicationDate;
+    private String publishedDate;
 
-    private String publicationCompany;
+    private String publisher;
 
     //情報の取得法によってはnullになってしまう可能性がある。entityのIDにはできないかな。
     private Isbn isbn;
