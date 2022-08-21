@@ -1,14 +1,18 @@
 package com.tarok.quotegenerator.Controller;
 
-import com.tarok.quotegenerator.Service.Okhttp;
+import com.tarok.quotegenerator.Service.OkhttpForGoogleApi;
+import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Controller
 public class QuoteController {
-    private final Okhttp http;
+    private final OkhttpForGoogleApi http;
+    private final OkhttpForKokkaiApi  httpForKokkai = new OkhttpForKokkaiApi();
 
-    public QuoteController(Okhttp http) {
+    public QuoteController(OkhttpForGoogleApi http) {
         this.http = http;
     }
 
@@ -17,9 +21,10 @@ public class QuoteController {
         return "home";
     }
     @PostMapping("/submit")
-    public String submit(@RequestParam("ISBN") String isbn) throws Exception {
+    public String submit(@RequestParam("ISBN") String isbn) throws IOException {
         System.out.println(isbn);
         http.getJsonFromGoogle(isbn);
+        httpForKokkai.getXMLFromKokkai(isbn);
         return "redirect:/";
     }
 }

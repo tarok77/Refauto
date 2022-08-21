@@ -3,6 +3,7 @@ package com.tarok.quotegenerator.Repository;
 import lombok.Getter;
 
 public class Isbn {
+    //エンコードの関係でStringじゃないとだめかも
     @Getter
     private final long isbn;
 
