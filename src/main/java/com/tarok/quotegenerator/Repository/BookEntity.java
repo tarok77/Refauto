@@ -3,15 +3,15 @@ package com.tarok.quotegenerator.Repository;
 import lombok.Data;
 
 @Data
-public class bookEntity {
+public class BookEntity {
     private String title;
 
-    private String author;
+    private Authors authors;
 
     private String translator;
 
     //Json戻り値の型にあわせてvalue objectに変えたほうがいいかも。
-    private String publishedDate;
+    private String publishedYear;
 
     private String publisher;
 

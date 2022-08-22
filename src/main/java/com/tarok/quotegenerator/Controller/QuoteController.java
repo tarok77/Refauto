@@ -1,16 +1,21 @@
 package com.tarok.quotegenerator.Controller;
 
+import com.tarok.quotegenerator.Service.GetBookService;
 import com.tarok.quotegenerator.Service.OkhttpForGoogleApi;
 import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 @Controller
 public class QuoteController {
     private final OkhttpForGoogleApi http;
     private final OkhttpForKokkaiApi  httpForKokkai = new OkhttpForKokkaiApi();
+    private final GetBookService service = new GetBookService();
 
     public QuoteController(OkhttpForGoogleApi http) {
         this.http = http;
@@ -21,12 +26,15 @@ public class QuoteController {
         return "home";
     }
     @PostMapping("/submit")
-    public String submit(@RequestParam("ISBN") String isbn) throws IOException {
+    public String submit(@RequestParam("ISBN") String isbn) throws IOException, XPathExpressionException {
+        String formatedIsbn = isbn.replaceAll("-","").replaceAll(" ", "");
         System.out.println(isbn);
-        http.getJsonFromGoogle(isbn);
-        httpForKokkai.getXMLFromKokkai(isbn);
+//        http.getJsonFromGoogle(isbn);
+//        httpForKokkai.getXMLFromKokkai(isbn);
+        service.makeXpathandgetname(formatedIsbn);
         return "redirect:/";
     }
 }
 //9784274226298
 //9784048930598
+//9784121600820
