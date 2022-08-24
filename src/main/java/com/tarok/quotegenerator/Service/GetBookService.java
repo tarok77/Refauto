@@ -1,14 +1,9 @@
 package com.tarok.quotegenerator.Service;
 
-import com.tarok.quotegenerator.Repository.BookEntity;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
 import java.io.IOException;
 import java.util.Iterator;
@@ -16,7 +11,7 @@ import java.util.Iterator;
 public class GetBookService {
     OkhttpForKokkaiApi okhttp = new OkhttpForKokkaiApi();
 //TODO　Xpathの生成、Namespaceの設定とnodeからの情報の取り出しを分けること
-    public void makeXpathandgetname(String isbn) throws XPathExpressionException, IOException {
+    public void makeXpathAndGetName(String isbn) throws XPathExpressionException, IOException {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         NamespaceContext ctx = new NamespaceContext() {

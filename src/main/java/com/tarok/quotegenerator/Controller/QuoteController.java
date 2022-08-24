@@ -5,9 +5,7 @@ import com.tarok.quotegenerator.Service.OkhttpForGoogleApi;
 import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
@@ -31,7 +29,7 @@ public class QuoteController {
         System.out.println(isbn);
 //        http.getJsonFromGoogle(isbn);
 //        httpForKokkai.getXMLFromKokkai(isbn);
-        service.makeXpathandgetname(formatedIsbn);
+        service.makeXpathAndGetName(formatedIsbn);
         return "redirect:/";
     }
 }

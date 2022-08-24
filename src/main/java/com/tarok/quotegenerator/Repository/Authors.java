@@ -7,8 +7,8 @@ import java.util.List;
 public class Authors {
     private List<Author> authors;
 
-    //作者が二人以上であるとき最初の作者に「...他」をつけて代表させる。
-    public String represent() {
+    //作者が三人以上であるとき最初の作者に「...他」をつけて代表させる。
+    public String getOrRepresentAuthor() {
         if(authors.size() > 2) {
             return authors.get(0).toString() + "他";
         }
