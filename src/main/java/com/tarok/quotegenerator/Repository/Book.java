@@ -20,4 +20,7 @@ public class Book {
 
     private String translator;
 
+    public String getAuthorNames() {
+        return authors.getOrRepresentAuthorsName();
+    }
 }

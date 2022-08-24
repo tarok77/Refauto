@@ -7,8 +7,16 @@ import java.util.List;
 public class Authors {
     private List<Author> authors;
 
+    public Authors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Authors(String author) {
+        this.authors = List.of(new Author(author));
+    }
+
     //作者が三人以上であるとき最初の作者に「...他」をつけて代表させる。
-    public String getOrRepresentAuthor() {
+    public String getOrRepresentAuthorsName() {
         if(authors.size() > 2) {
             return authors.get(0).toString() + "他";
         }
@@ -18,14 +26,6 @@ public class Authors {
         }
 
         return authors.get(0).toString();
-    }
-
-    public Authors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public Authors(String author) {
-        this.authors = List.of(new Author(author));
     }
 
 }

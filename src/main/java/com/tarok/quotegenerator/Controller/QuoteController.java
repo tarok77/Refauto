@@ -36,7 +36,8 @@ public class QuoteController {
         Book book = setter.setAuthors(isbn);
         System.out.println(book);
 //TODO　共著の場合の分割をメソッド化する必要
-        System.out.println(book.getAuthors().getOrRepresentAuthor());
+        System.out.println(book.getAuthorNames());
+//        System.out.println(book.getAuthors().getOrRepresentAuthorsName());
         return "redirect:/";
     }
 }
