@@ -1,5 +1,6 @@
 package com.tarok.quotegenerator.Service;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -8,11 +9,12 @@ import javax.xml.xpath.*;
 import java.io.IOException;
 import java.util.Iterator;
 
+@Service
 public class GetBookService {
     OkhttpForKokkaiApi okhttp = new OkhttpForKokkaiApi();
 
     //TODO　Xpathの生成、Namespaceの設定とnodeからの情報の取り出しを分けること
-    public void makeXpathAndGetName(String isbn) throws XPathExpressionException, IOException {
+    public XPathExpression makeXpathAndSetNameSpace() throws XPathExpressionException {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         NamespaceContext ctx = new NamespaceContext() {
@@ -37,14 +39,27 @@ public class GetBookService {
             }
         };
         xpath.setNamespaceContext(ctx);
-        XPathExpression expr = xpath.compile("//dc:title/rdf:Description/rdf:value/text()");//rdf:value <dc:title><rdf:Description>
+        XPathExpression expr = xpath.compile("//dc:creator/text()");//rdf:value <dc:title><rdf:Description>
+                                    ////dc:title/rdf:Description/rdf:value/text()
+        return expr;
 
+//        Document doc = okhttp.getDocumentFromKokkai(isbn);
+//        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+//        System.out.println(nodes.getLength());
+//        for (int i = 0; i < nodes.getLength(); i++) {
+//            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
+//        }
+
+    }
+
+    public NodeList getNodesByISBN(String isbn) throws IOException, XPathExpressionException {
         Document doc = okhttp.getDocumentFromKokkai(isbn);
+        XPathExpression expr = makeXpathAndSetNameSpace();
         NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
         System.out.println(nodes.getLength());
         for (int i = 0; i < nodes.getLength(); i++) {
             System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
         }
-
+        return nodes;
     }
 }

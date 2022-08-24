@@ -1,5 +1,7 @@
 package com.tarok.quotegenerator.Controller;
 
+import com.tarok.quotegenerator.Repository.Book;
+import com.tarok.quotegenerator.Service.BookSetter;
 import com.tarok.quotegenerator.Service.GetBookService;
 import com.tarok.quotegenerator.Service.OkhttpForGoogleApi;
 import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
@@ -24,12 +26,17 @@ public class QuoteController {
         return "home";
     }
     @PostMapping("/submit")
-    public String submit(@RequestParam("ISBN") String isbn) throws IOException, XPathExpressionException {
-        String formatedIsbn = isbn.replaceAll("-","").replaceAll(" ", "");
+    public String submit(@RequestParam("ISBN") String originalIsbn) throws IOException, XPathExpressionException {
+        String isbn = originalIsbn.replaceAll("-","").replaceAll(" ", "");
         System.out.println(isbn);
 //        http.getJsonFromGoogle(isbn);
 //        httpForKokkai.getXMLFromKokkai(isbn);
-        service.makeXpathAndGetName(formatedIsbn);
+        service.getNodesByISBN(isbn);
+        BookSetter setter = new BookSetter();
+        Book book = setter.setAuthors(isbn);
+        System.out.println(book);
+//TODO　共著の場合の分割をメソッド化する必要
+        System.out.println(book.getAuthors().getOrRepresentAuthor());
         return "redirect:/";
     }
 }

@@ -19,4 +19,13 @@ public class Authors {
 
         return authors.get(0).toString();
     }
+
+    public Authors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Authors(String author) {
+        this.authors = List.of(new Author(author));
+    }
+
 }
