@@ -1,14 +1,14 @@
 package com.tarok.quotegenerator.Repository;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
-public class BookEntity {
+@Component
+public class Book {
     private String title;
 
     private Authors authors;
-
-    private String translator;
 
     //Json戻り値の型にあわせてvalue objectに変えたほうがいいかも。
     private String publishedYear;
@@ -17,4 +17,7 @@ public class BookEntity {
 
     //情報の取得法によってはnullになってしまう可能性がある。entityのIDにはできないかな。
     private Isbn isbn;
+
+    private String translator;
+
 }

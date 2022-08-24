@@ -10,13 +10,22 @@ import java.util.Iterator;
 
 public class GetBookService {
     OkhttpForKokkaiApi okhttp = new OkhttpForKokkaiApi();
-//TODO　Xpathの生成、Namespaceの設定とnodeからの情報の取り出しを分けること
+
+    //TODO　Xpathの生成、Namespaceの設定とnodeからの情報の取り出しを分けること
     public void makeXpathAndGetName(String isbn) throws XPathExpressionException, IOException {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         NamespaceContext ctx = new NamespaceContext() {
             public String getNamespaceURI(String prefix) {
-                return prefix.equals("dc") ? "http://purl.org/dc/elements/1.1/" : null;
+                if (prefix.equals("dc")) return "http://purl.org/dc/elements/1.1/";
+                if (prefix.equals("dcterms")) return "http://purl.org/dc/terms/";
+                if (prefix.equals("rdf")) return "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+                if (prefix.equals("rdfs")) return "http://www.w3.org/2000/01/rdf-schema#";
+                if (prefix.equals("dcndl")) return "http://ndl.go.jp/dcndl/terms/";
+                if (prefix.equals("foaf")) return "http://xmlns.com/foaf/0.1/";
+                if (prefix.equals("owl")) return "http://www.w3.org/2002/07/owl#";
+
+                return null;
             }
 
             public Iterator<String> getPrefixes(String uri) {
@@ -28,7 +37,7 @@ public class GetBookService {
             }
         };
         xpath.setNamespaceContext(ctx);
-        XPathExpression expr = xpath.compile("//dc:creator/text()");
+        XPathExpression expr = xpath.compile("//dc:title/rdf:Description/rdf:value/text()");//rdf:value <dc:title><rdf:Description>
 
         Document doc = okhttp.getDocumentFromKokkai(isbn);
         NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
