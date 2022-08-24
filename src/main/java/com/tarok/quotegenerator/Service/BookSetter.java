@@ -32,7 +32,7 @@ public class BookSetter {
     public Book setAuthors(String isbn) throws XPathExpressionException, IOException {
         NodeList nodes = service.getNodesByISBN(isbn);
         for (int i = 0; i < nodes.getLength(); i++) {
-            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
+//            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
             this.book.setAuthors(new Authors((nodes.item(0).getNodeValue())));
         }
 

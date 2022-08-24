@@ -10,6 +10,9 @@ public class Authors {
     public Authors(List<Author> authors) {
         this.authors = authors;
     }
+    public Authors(Author author) {
+        this.authors = List.of(author);
+    }
 
     public Authors(String author) {
         this.authors = List.of(new Author(author));

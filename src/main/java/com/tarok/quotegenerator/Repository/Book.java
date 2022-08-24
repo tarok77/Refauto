@@ -17,7 +17,7 @@ public class Book {
 
     //情報の取得法によってはnullになってしまう可能性がある。entityのIDにはできないかな。
     private Isbn isbn;
-
+    //nullでありうる
     private String translator;
 
     public String getAuthorNames() {

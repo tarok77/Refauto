@@ -54,12 +54,12 @@ public class GetBookService {
 
     public NodeList getNodesByISBN(String isbn) throws IOException, XPathExpressionException {
         Document doc = okhttp.getDocumentFromKokkai(isbn);
-        XPathExpression expr = makeXpathAndSetNameSpace();
-        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-        System.out.println(nodes.getLength());
-        for (int i = 0; i < nodes.getLength(); i++) {
-            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
-        }
+        XPathExpression expression = makeXpathAndSetNameSpace();
+        NodeList nodes = (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
+//        System.out.println(nodes.getLength());
+//        for (int i = 0; i < nodes.getLength(); i++) {
+//            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
+//        }
         return nodes;
     }
 }
