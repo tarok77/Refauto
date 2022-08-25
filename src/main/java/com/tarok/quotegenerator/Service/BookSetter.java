@@ -11,11 +11,9 @@ import java.io.IOException;
 
 @Component
 public class BookSetter {
-    private final Book book;
     private final GetBookService service;
 
     public BookSetter() {
-        this.book = new Book();
         this.service = new GetBookService();
     }
 
@@ -31,12 +29,14 @@ public class BookSetter {
 //    }
     public Book setAuthors(String isbn) throws XPathExpressionException, IOException {
         NodeList nodes = service.getNodesByISBN(isbn);
+        Book book = new Book();
         for (int i = 0; i < nodes.getLength(); i++) {
 //            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
-            this.book.setAuthors(new Authors((nodes.item(0).getNodeValue())));
+            if(i==0) book.setAuthors(nodes.item(i).getNodeValue());
+            if(i==1) book.setTranslator(nodes.item(i).getNodeValue());
         }
 
-        return this.book;
+        return book;
     }
 
 

@@ -39,8 +39,8 @@ public class GetBookService {
             }
         };
         xpath.setNamespaceContext(ctx);
-        XPathExpression expr = xpath.compile("//dc:creator/text()");//rdf:value <dc:title><rdf:Description>
-                                    ////dc:title/rdf:Description/rdf:value/text()
+        XPathExpression expr = xpath.compile("//dcterms:title/text()"); //<dc:title><rdf:Description>
+                                    ////dc:title/rdf:Description/rdf:value/text()//dc:creator/text()
         return expr;
 
 //        Document doc = okhttp.getDocumentFromKokkai(isbn);
@@ -53,13 +53,23 @@ public class GetBookService {
     }
 
     public NodeList getNodesByISBN(String isbn) throws IOException, XPathExpressionException {
-        Document doc = okhttp.getDocumentFromKokkai(isbn);
+        Document doc = okhttp.getDocumentFromKokkaiByIsbn(isbn);
         XPathExpression expression = makeXpathAndSetNameSpace();
         NodeList nodes = (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
 //        System.out.println(nodes.getLength());
 //        for (int i = 0; i < nodes.getLength(); i++) {
 //            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
 //        }
+        return nodes;
+    }
+    public NodeList getNodesByTitle(String title) throws XPathExpressionException {
+        Document doc = okhttp.getXMLbyTitle(title);
+        XPathExpression expression = makeXpathAndSetNameSpace();
+        NodeList nodes =(NodeList) expression.evaluate(doc, XPathConstants.NODESET);
+        System.out.println(nodes.getLength());
+        for (int i = 0; i < nodes.getLength(); i++) {
+            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
+        }
         return nodes;
     }
 }

@@ -3,6 +3,8 @@ package com.tarok.quotegenerator.Repository;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Data
 @Component
 public class Book {
@@ -23,4 +25,9 @@ public class Book {
     public String getAuthorNames() {
         return authors.getOrRepresentAuthorsName();
     }
+
+    public void setAuthors(String author) {
+        this.authors = new Authors(author);
+    }
+
 }

@@ -25,9 +25,9 @@ public class QuoteController {
     public String home() {
         return "home";
     }
-    @PostMapping("/submit")
-    public String submit(@RequestParam("ISBN") String originalIsbn) throws IOException, XPathExpressionException {
-        String isbn = originalIsbn.replaceAll("-","").replaceAll(" ", "");
+    @PostMapping("/submit/isbn")
+    public String submitIsbn(@RequestParam("ISBN") String IsbnFromHTML) throws IOException, XPathExpressionException {
+        String isbn = IsbnFromHTML.replaceAll("-","").replaceAll(" ", "");
         System.out.println(isbn);
 //        http.getJsonFromGoogle(isbn);
 //        httpForKokkai.getXMLFromKokkai(isbn);
@@ -36,8 +36,16 @@ public class QuoteController {
         Book book = setter.setAuthors(isbn);
         System.out.println(book);
 //TODO　共著の場合の分割をメソッド化する必要
-        System.out.println(book.getAuthorNames());
+        System.out.println("作者は" + book.getAuthorNames());
+        System.out.println("翻訳は" + book.getTranslator());
 //        System.out.println(book.getAuthors().getOrRepresentAuthorsName());
+        return "redirect:/";
+    }
+    @PostMapping("/submit/title")
+    public String submitTitle(@RequestParam("title") String titleFromHTML) throws XPathExpressionException {
+        String title = titleFromHTML.replaceAll(" ", "");
+        service.getNodesByTitle(title);
+
         return "redirect:/";
     }
 }
