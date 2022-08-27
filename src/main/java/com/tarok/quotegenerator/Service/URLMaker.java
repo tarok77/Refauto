@@ -5,12 +5,13 @@ import java.nio.charset.StandardCharsets;
 
 public class URLMaker {
     public String toKokkaiByISBN(String isbn) {
-        String query = "isbn=\"" + isbn + "\"";
-        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+        String query = isbn ;
+//        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         //Todo maximumRecordは本番環境で要調整 ISBNに関しては理論上一件のみでいいはず
-        String url = "https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&recordSchema=dcndl&onlyBib=true&recordPacking=xml&query="
-                + encodedQuery +
-                " AND dpid=iss-ndl-opac";
+        String url = "https://iss.ndl.go.jp/api/opensearch?cnt=10&dpid=iss-ndl-opac&isbn="
+                //"https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&recordSchema=dcndl&onlyBib=true&recordPacking=xml&query="
+                + isbn ;
+//                + " AND dpid=iss-ndl-opac";
 
         return url;
     }

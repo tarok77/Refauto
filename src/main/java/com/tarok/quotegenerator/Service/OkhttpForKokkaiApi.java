@@ -10,6 +10,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +24,8 @@ public class OkhttpForKokkaiApi {
     private final OkHttpClient client = new OkHttpClient();
     private final URLMaker URLmaker = new URLMaker();
 
-    public Document getDocumentFromKokkaiByIsbn(String isbn) throws IOException {
+//小さく分けたいがInputStreamを戻り値にするわけにもいかないようでエラーになる。イベント処理のほうを外部化するしかないのかな
+    public void getInputStreamFromKokkaiByIsbn(String isbn) throws IOException {
 
         String url = URLmaker.toKokkaiByISBN(isbn);
         Request request = new Request.Builder()
@@ -32,24 +39,36 @@ public class OkhttpForKokkaiApi {
             for (int i = 0; i < responseHeaders.size(); i++) {
                 System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-            //上記のif文でNullPointerExceptionは回避できているか
-//            System.out.println(response.body().string());
-            //try-with-resourceがもう一個いるのか？
-            InputStream inputstream = response.body().byteStream();
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            BufferedInputStream bufferedIs = new BufferedInputStream(inputstream);
-            Document doc = builder.parse(bufferedIs);
+            InputStream is = response.body().byteStream();
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLEventReader reader = factory.createXMLEventReader(is);
 
-            return doc;
+            while (reader.hasNext()) {
+                XMLEvent event = reader.nextEvent();
+                if (event.isStartElement()) {
+                    StartElement el = event.asStartElement();
+                    if (el.getName().getLocalPart().equals("creator")) {
+                        event = reader.nextEvent();
+                        if (event.isCharacters()) System.out.println("作者は" + event.asCharacters());
+                    }
 
-        } catch (ParserConfigurationException | SAXException e) {
+                    if (el.getName().getLocalPart().equals("title")) {
+                        System.out.print("title: ");
+                        event = reader.nextEvent();
+                        if (event.isCharacters()) System.out.println("タイトルは" + event.asCharacters());
+                    }
+                }
+            }
+            reader.close();
+
+        } catch (XMLStreamException e) {
             e.printStackTrace();
-            throw new RuntimeException();
         }
+
     }
+
+
 
     public Document getXMLbyTitle(String title) {
         String url = URLmaker.toKokkaiByTitle(title);
