@@ -27,6 +27,7 @@ public class OkhttpForKokkaiApi {
 //小さく分けたいがInputStreamを戻り値にするわけにもいかないようでエラーになる。イベント処理のほうを外部化するしかないのかな
     public void getInputStreamFromKokkaiByIsbn(String isbn) throws IOException {
 
+        //受けっとったISBNからURLを作成しXML形式のレスポンスを取得する
         String url = URLmaker.toKokkaiByISBN(isbn);
         Request request = new Request.Builder()
                 .url(url)
@@ -40,10 +41,12 @@ public class OkhttpForKokkaiApi {
                 System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
 
+            //レスポンスをEventReaderに変換
             InputStream is = response.body().byteStream();
             XMLInputFactory factory = XMLInputFactory.newInstance();
             XMLEventReader reader = factory.createXMLEventReader(is);
 
+            //TODO ここを別クラスにとりだす
             while (reader.hasNext()) {
                 XMLEvent event = reader.nextEvent();
                 if (event.isStartElement()) {
