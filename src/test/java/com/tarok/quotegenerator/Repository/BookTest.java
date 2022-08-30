@@ -14,7 +14,7 @@ public class BookTest {
         this.book.setTitle("伝習録");
         this.book.setIsbn(new Isbn("9784121600820"));
         this.book.setPublisher("中央公論新社");
-        this.book.setPublishedYear("2005");
+        this.book.setPublishedYear(new PublishedYear("2005.9"));
         this.book.setTranslator("溝口雄三");
     }
     @Test
