@@ -1,5 +1,6 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.candelete;
 
+import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 @Service
+//TODO このクラスはstaxを使うようにしたため不要　
 public class GetBookService {
     OkhttpForKokkaiApi okhttp = new OkhttpForKokkaiApi();
 
@@ -62,14 +64,14 @@ public class GetBookService {
 ////        }
 //        return nodes;
 //    }
-    public NodeList getNodesByTitle(String title) throws XPathExpressionException {
-        Document doc = okhttp.getXMLbyTitle(title);
-        XPathExpression expression = makeXpathAndSetNameSpace();
-        NodeList nodes =(NodeList) expression.evaluate(doc, XPathConstants.NODESET);
-        System.out.println(nodes.getLength());
-        for (int i = 0; i < nodes.getLength(); i++) {
-            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
-        }
-        return nodes;
-    }
+//    public NodeList getNodesByTitle(String title) throws XPathExpressionException {
+//        Document doc = okhttp.getXMLbyTitle(title);
+//        XPathExpression expression = makeXpathAndSetNameSpace();
+//        NodeList nodes =(NodeList) expression.evaluate(doc, XPathConstants.NODESET);
+//        System.out.println(nodes.getLength());
+//        for (int i = 0; i < nodes.getLength(); i++) {
+//            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
+//        }
+//        return nodes;
+//    }
 }

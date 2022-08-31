@@ -1,5 +1,6 @@
 package com.tarok.quotegenerator.Repository;
 
+import com.tarok.quotegenerator.Repository.ValueObjects.PublishedYear;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

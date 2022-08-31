@@ -1,9 +1,10 @@
-package com.tarok.quotegenerator.Repository;
+package com.tarok.quotegenerator.Repository.ValueObjects;
 
 import lombok.Getter;
 
 @Getter
 public class Author {
+    //TODO sortのためにおそらく読みの情報を漢字と別に保存する必要がある
     private final String author;
 
     public Author(String author) throws IllegalArgumentException {

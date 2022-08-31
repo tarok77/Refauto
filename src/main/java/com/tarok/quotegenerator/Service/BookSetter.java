@@ -1,43 +1,42 @@
 package com.tarok.quotegenerator.Service;
 
-import com.tarok.quotegenerator.Repository.Author;
-import com.tarok.quotegenerator.Repository.Authors;
 import com.tarok.quotegenerator.Repository.Book;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 @Component
 public class BookSetter {
-    private final GetBookService service;
+    //filterを使わないならEventReaderである必要はない
+    public void createBookFromEventReader(XMLEventReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
+            //受け渡しはイベントのほうがいいかも
+            XMLEvent event = reader.nextEvent();
+            if (event.isStartElement()) {
+                StartElement el = event.asStartElement();
+                if(el.getName().getLocalPart().equals("title")) {
+                    var book = new Book();
+                }
+                if (el.getName().getLocalPart().equals("creator")) {
+                    event = reader.nextEvent();
+                    if (event.isCharacters()) {
+                        System.out.println("作者は" + event.asCharacters());
+                    }
+                }
 
-    public BookSetter() {
-        this.service = new GetBookService();
+                //getLocalNameではdc:titleも取得されてしまう
+                if (el.getName().toString().equals("title")) {
+                    event = reader.nextEvent();
+                    if (event.isCharacters()) System.out.println("タイトルは" + event.asCharacters().getData());
+                }
+            }
+        }
     }
-
-//    public Book setBook() {
-//        this.book.setAuthors();
-//        this.book.setIsbn();
-//        this.book.setPublishedYear();
-//        this.book.setTitle();
-//        this.book.setPublisher();
-//        this.book.setTranslator();
-//
-//        return book;
-//    }
-//    public Book setAuthors(String isbn) throws XPathExpressionException, IOException {
-//        NodeList nodes = service.getNodesByISBN(isbn);
-//        Book book = new Book();
-//        for (int i = 0; i < nodes.getLength(); i++) {
-////            System.out.println("number" + i + "は" + nodes.item(i).getNodeValue());
-//            if(i==0) book.setAuthors(nodes.item(i).getNodeValue());
-//            if(i==1) book.setTranslator(nodes.item(i).getNodeValue());
-//        }
-//
-//        return book;
-//    }
-
-
 }
+//{http://purl.org/dc/elements/1.1/}creator http://purl.org/dc/elements/1.1/ com.sun.org.apache.xerces.internal.util.NamespaceContextWrapper@2eab3090com.sun.xml.internal.stream.util.ReadOnlyIterator@2b7b4b2
+//        作者はThomas, David, 1956-
+//el.getNamespaceURI("dc")
+//el.getName().getPrefix　これで接頭辞がとれる

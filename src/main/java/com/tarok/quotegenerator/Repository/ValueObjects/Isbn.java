@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Repository;
+package com.tarok.quotegenerator.Repository.ValueObjects;
 
 import lombok.Getter;
 
@@ -7,12 +7,12 @@ public class Isbn {
     @Getter
     private final long isbn;
 
-    Isbn(long number) throws IllegalArgumentException {
+    public Isbn(long number) throws IllegalArgumentException {
         judgeArgument(number);
         this.isbn = number;
     }
 
-    Isbn(String stringNumber) throws IllegalArgumentException {
+    public Isbn(String stringNumber) throws IllegalArgumentException {
         long number = Long.parseLong(stringNumber);
         judgeArgument(number);
         this.isbn = number;

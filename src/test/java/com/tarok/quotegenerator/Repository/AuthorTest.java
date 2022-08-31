@@ -1,5 +1,6 @@
 package com.tarok.quotegenerator.Repository;
 
+import com.tarok.quotegenerator.Repository.ValueObjects.Author;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

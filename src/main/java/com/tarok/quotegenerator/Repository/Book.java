@@ -1,9 +1,10 @@
 package com.tarok.quotegenerator.Repository;
 
+import com.tarok.quotegenerator.Repository.ValueObjects.Isbn;
+import com.tarok.quotegenerator.Repository.ValueObjects.Authors;
+import com.tarok.quotegenerator.Repository.ValueObjects.PublishedYear;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Data
 @Component
@@ -12,8 +13,7 @@ public class Book {
 
     private Authors authors;
 
-    //Json戻り値の型にあわせてvalue objectに変えたほうがいいかも。
-    private String publishedYear;
+    private PublishedYear publishedYear;
 
     private String publisher;
 

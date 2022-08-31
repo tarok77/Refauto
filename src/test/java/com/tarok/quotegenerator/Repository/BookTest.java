@@ -1,5 +1,7 @@
 package com.tarok.quotegenerator.Repository;
 
+import com.tarok.quotegenerator.Repository.ValueObjects.Isbn;
+import com.tarok.quotegenerator.Repository.ValueObjects.PublishedYear;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

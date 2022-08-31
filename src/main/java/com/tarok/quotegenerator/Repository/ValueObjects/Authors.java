@@ -1,5 +1,6 @@
-package com.tarok.quotegenerator.Repository;
+package com.tarok.quotegenerator.Repository.ValueObjects;
 
+import com.tarok.quotegenerator.Repository.ValueObjects.Author;
 import lombok.Data;
 import java.util.List;
 

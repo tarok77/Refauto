@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.candelete;
 
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;

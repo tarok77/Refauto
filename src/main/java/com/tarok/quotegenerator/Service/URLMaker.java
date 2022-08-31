@@ -2,27 +2,26 @@ package com.tarok.quotegenerator.Service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.Normalizer;
 
 public class URLMaker {
 
     public String createURL(String inputtedString) {
         var judge = new JudgeIsbn();
-        ISBNOrNotISBN result  = judge.judge(inputtedString);
+        ISBNOrNot result  = judge.judge(inputtedString);
 
         //違う場合はTitleとみなす
-        if(result == ISBNOrNotISBN.NOTISBN) {
+        if(result == ISBNOrNot.NOT_ISBN) {
             return toKokkaiByTitle(inputtedString);
         }
 
         //半角であるときはそのままつかえる
-        if(result == ISBNOrNotISBN.ONEBYTEISBN) {
+        if(result == ISBNOrNot.ONE_BYTE_ISBN) {
             return toKokkaiByISBN(inputtedString);
         }
 
         //全角であるときは半角に正規化。十三桁の全角数字であることはすでに保証されている。
         //例外時はIllegalArgumentExceptionで停止
-        if(result == ISBNOrNotISBN.TWOBYTEISBN){
+        if(result == ISBNOrNot.TWO_BYTE_ISBN){
             String normalizedISBN = normalizeTwoByte(inputtedString);
             return normalizedISBN;
         }

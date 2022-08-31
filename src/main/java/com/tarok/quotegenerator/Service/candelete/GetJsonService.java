@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.candelete;
 
 import org.hibernate.validator.constraints.ISBN;
 
