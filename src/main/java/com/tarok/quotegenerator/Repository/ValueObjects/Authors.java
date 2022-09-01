@@ -32,4 +32,12 @@ public class Authors {
         return authors.get(0).toString();
     }
 
+    public int size() {
+        return authors.size();
+    }
+
+    public void add(String author) {
+        authors.add(new Author(author));
+    }
+
 }
