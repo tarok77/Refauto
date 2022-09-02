@@ -43,6 +43,7 @@ public class Book {
 //        book.setTranslator(new Translator(raw.getCreatorStringList()));
         book.setPublisher(new Publisher(raw.getPublisherSting()));
         book.setPublishedYear(new PublishedYear(raw.getPublishedYearString()));
+        //TODO nullpoが発生
         book.setIsbn(new Isbn(raw.getIsbnString().replaceAll("-", "")));
         return book;
     }

@@ -17,8 +17,21 @@ public class IsbnTest {
 
     @Test
     public void Isbnが１０桁もしくは１３桁でオブジェクトが生成される() {
-        assertThat(new Isbn(1000000000L).getIsbn()).isEqualTo(1000000000L);
-        assertThat((new Isbn(1000000000000L)).getIsbn()).isEqualTo((1000000000000L));
+        assertThat(new Isbn(1000000000L).getIsbnExceptLast()).isEqualTo(100000000L);
+        assertThat((new Isbn(1000000000000L)).getIsbnExceptLast()).isEqualTo((100000000000L));
+    }
+
+    @Test
+    public void Stringを引数にするコンストラクタのフィールド値の正当性() {
+        Isbn isbn = new Isbn("9784121600820");
+        assertThat(isbn.getIsbnExceptLast()).isEqualTo(978412160082L);
+        assertThat(isbn.getCheckDigit()).isEqualTo('0');
+
+        isbn = new Isbn("123456789X");
+        assertThat(isbn.getIsbnExceptLast()).isEqualTo(123456789L);
+        assertThat(isbn.getCheckDigit()).isEqualTo('X');
     }
 
 }
+
+

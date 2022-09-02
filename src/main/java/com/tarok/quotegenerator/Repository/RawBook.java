@@ -31,12 +31,14 @@ public class RawBook {
     }
 
 
-    public void cleanAll() {
-        titleString = null;
-        creatorStringList = null;
-        publishedYearString = null;
-        publisherSting = null;
-        isbnString = null;
+    public RawBook setDefault() {
+        titleString = "default";
+        //TODO 要変更
+        publishedYearString = "1977.7";
+        publisherSting = "default";
+        isbnString ="1111111111";
+
+        return this;
     }
 
     public boolean isNoData() {

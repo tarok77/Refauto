@@ -35,7 +35,7 @@ public class BookGetter {
                 String localName = el.getName().getLocalPart();
                 String prefix = el.getName().getPrefix();
                 if (localName.equals("record")) {
-                    rawBook = new RawBook();
+                    rawBook = new RawBook().setDefault();
                 }
                 //TODO データタイプの設定が必要
                 if (localName.equals("identifier")) {
