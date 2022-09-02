@@ -1,8 +1,8 @@
 package com.tarok.quotegenerator.Repository.ValueObjects;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class Title {
     private final String title;
 

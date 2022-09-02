@@ -1,7 +1,6 @@
 package com.tarok.quotegenerator.Repository;
 
-import com.tarok.quotegenerator.Repository.ValueObjects.Isbn;
-import com.tarok.quotegenerator.Repository.ValueObjects.PublishedYear;
+import com.tarok.quotegenerator.Repository.ValueObjects.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +12,16 @@ public class BookTest {
     @BeforeEach
     public void setUpBook() {
         this.book.setAuthors("王陽明");
-        this.book.setTitle("伝習録");
+        this.book.setTitle(new Title("伝習録"));
         this.book.setIsbn(new Isbn("9784121600820"));
-        this.book.setPublisher("中央公論新社");
+        this.book.setPublisher(new Publisher("中央公論新社"));
         this.book.setPublishedYear(new PublishedYear("2005.9"));
-        this.book.setTranslator("溝口雄三");
+        this.book.setTranslator(new Translator("溝口雄三"));
     }
     @Test
     public void getterの動作() {
         assertThat(book.getAuthorNames()).isEqualTo("王陽明");
-        assertThat(book.getTranslator()).isEqualTo("溝口雄三");
+        assertThat(book.getTranslatorName()).isEqualTo("溝口雄三");
     }
 
 }

@@ -1,8 +1,8 @@
 package com.tarok.quotegenerator.Repository.ValueObjects;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class Author {
     //TODO sortのためにおそらく読みの情報を漢字と別に保存する必要がある
     private final String author;

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 @Controller
@@ -26,19 +25,21 @@ public class QuoteController {
     }
 
     @PostMapping("/submit/isbn")
+    //isbnでも二つのレコードが帰る可能性があるかも そういえば岩波文庫の使いまわし問題などもあったのでidとして機能していないかも知れない。
+    //例　https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&query=isbn=9784274226298
     public String submitIsbn(@RequestParam("ISBN") String IsbnFromHTML) throws IOException, XMLStreamException {
         String isbn = IsbnFromHTML.replaceAll("-","").replaceAll(" ", "");
         System.out.println(isbn);
-        httpForKokkai.getInputStreamFromKokkaiByISBN(isbn);
+        httpForKokkai.getRawBookFromKokkai(isbn);
 
         return "redirect:/";
     }
 
     @PostMapping("/submit/title")
     //新しいメソッドを使っていない可能性がある
-    public String submitTitle(@RequestParam("title") String titleFromHTML) throws IOException {
+    public String submitTitle(@RequestParam("title") String titleFromHTML) throws IOException, XMLStreamException {
         String title = titleFromHTML.replaceAll(" ", "");
-        httpForKokkai.getXMLbyTitle(title);
+        httpForKokkai.getRawBookFromKokkai(title);
 
         return "redirect:/";
     }

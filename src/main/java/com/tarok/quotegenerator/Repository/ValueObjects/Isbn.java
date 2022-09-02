@@ -1,10 +1,11 @@
 package com.tarok.quotegenerator.Repository.ValueObjects;
 
-import lombok.Getter;
+import lombok.Data;
 
+@Data
 public class Isbn {
     //エンコードの関係でStringじゃないとだめかも
-    @Getter
+
     private final long isbn;
 
     public Isbn(long number) throws IllegalArgumentException {

@@ -6,4 +6,9 @@ public class Translator {
     public Translator(String translator) {
         this.translator = translator;
     }
+
+    @Override
+    public String toString() {
+        return translator;
+    }
 }

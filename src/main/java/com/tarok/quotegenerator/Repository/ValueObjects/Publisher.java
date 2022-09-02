@@ -1,5 +1,8 @@
 package com.tarok.quotegenerator.Repository.ValueObjects;
 
+import lombok.Data;
+
+@Data
 public class Publisher {
     private final String publisher;
 
