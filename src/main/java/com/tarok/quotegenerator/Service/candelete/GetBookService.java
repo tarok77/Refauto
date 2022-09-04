@@ -1,13 +1,10 @@
 package com.tarok.quotegenerator.Service.candelete;
 
-import com.tarok.quotegenerator.Service.OkhttpForKokkaiApi;
+import com.tarok.quotegenerator.Service.httpAccess.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.*;
-import java.io.IOException;
 import java.util.Iterator;
 
 @Service

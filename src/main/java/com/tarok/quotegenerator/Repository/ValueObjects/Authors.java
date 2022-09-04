@@ -2,6 +2,8 @@ package com.tarok.quotegenerator.Repository.ValueObjects;
 
 import com.tarok.quotegenerator.Repository.ValueObjects.Author;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,7 +18,7 @@ public class Authors {
     }
 
     public Authors(String author) {
-        this.authors = List.of(new Author(author));
+        this.authors = List.of(Author.nameOf(author));
     }
 
     //作者が三人以上であるとき最初の作者に「...他」をつけて代表させる。
@@ -37,7 +39,7 @@ public class Authors {
     }
 
     public void add(String author) {
-        authors.add(new Author(author));
+        authors.add(Author.nameOf(author));
     }
 
 }

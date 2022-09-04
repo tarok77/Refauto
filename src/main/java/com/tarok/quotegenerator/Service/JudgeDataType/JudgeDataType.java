@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.JudgeDataType;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

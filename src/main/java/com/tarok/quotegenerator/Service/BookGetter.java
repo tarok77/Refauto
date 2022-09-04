@@ -3,9 +3,7 @@ package com.tarok.quotegenerator.Service;
 import com.tarok.quotegenerator.Repository.Book;
 import com.tarok.quotegenerator.Repository.RawBook;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
@@ -35,7 +33,7 @@ public class BookGetter {
                 String localName = el.getName().getLocalPart();
                 String prefix = el.getName().getPrefix();
                 if (localName.equals("record")) {
-                    rawBook = new RawBook().setDefault();
+                    rawBook = new RawBook();//.setdefault
                 }
                 //TODO データタイプの設定が必要
                 if (localName.equals("identifier")) {
@@ -47,17 +45,14 @@ public class BookGetter {
                     }
                     //上記の条件を満たしたときだけeventが進み以下の条件を満たす
                     if (event.isCharacters()) {
-                        System.out.println("isbnは" + event.asCharacters());
-                        rawBook.setIsbnString(event.asCharacters().getData());
+                        rawBook.setIsbn(event.asCharacters().getData());
                     }
                 }
-
 
                 if (prefix.equals("dcterms") && localName.equals("title")) {
                     event = reader.nextEvent();
                     if (event.isCharacters()) {
-                        System.out.println("タイトルは" + event.asCharacters().getData());
-                        rawBook.setTitleString(event.asCharacters().getData());
+                        rawBook.setTitle(event.asCharacters().getData());
                     }
                 }
 
@@ -66,23 +61,21 @@ public class BookGetter {
                     reader.nextTag(); reader.nextTag();
                     event = reader.nextEvent();
                     if(event.isCharacters()) {
-                        System.out.println("発見");
-                        rawBook.setPublisherSting(event.asCharacters().getData());
+                        rawBook.setPublisher(event.asCharacters().getData());
                     }
                 }
 
                 if(prefix.equals("dc") && localName.equals("creator")) {
                     event = reader.nextEvent();
                     if(event.isCharacters()) {
-                        System.out.println("作者とか");
-                        rawBook.addCreatorStringList(event.asCharacters().getData());
+                        rawBook.addCreatorList(event.asCharacters().getData());
                     }
                 }
 
                 if(prefix.equals("dcterms") && localName.equals("date")) {
                     event = reader.nextEvent();
                     if(event.isCharacters()) {
-                        rawBook.setPublishedYearString(event.asCharacters().getData());
+                        rawBook.setPublishedYear(event.asCharacters().getData());
                     }
                 }
             }

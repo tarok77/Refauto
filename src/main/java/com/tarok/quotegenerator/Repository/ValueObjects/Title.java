@@ -6,8 +6,12 @@ import lombok.Data;
 public class Title {
     private final String title;
 
-    public Title(String title) {
+    private Title(String title) {
         if(title.length()>100)throw new IllegalArgumentException("タイトルが長すぎます");
         this.title = title;
+    }
+
+    public static Title nameOf(String name) {
+        return new Title(name);
     }
 }

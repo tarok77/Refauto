@@ -1,5 +1,6 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.httpAccess;
 
+import com.tarok.quotegenerator.Service.BookGetter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,11 +23,15 @@ public class OkhttpForKokkaiApi {
 
         //受けっとったISBNからURLを作成しXML形式のレスポンスを取得する
         String url = URLmaker.createURL(inputtedData);
+        //TODO 開発中のデータ比較用　本番環境ではとる
+        System.out.println(url);
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         try (Response response = client.newCall(request).execute();
+             //TODO nullpoの警告が出ているので確かめる
              InputStream is = response.body().byteStream()) {
             //XMLEventReaderはclosableではないのでここにかけない。
 

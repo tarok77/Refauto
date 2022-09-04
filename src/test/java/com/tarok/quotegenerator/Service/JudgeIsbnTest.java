@@ -1,9 +1,12 @@
 package com.tarok.quotegenerator.Service;
 
+import com.tarok.quotegenerator.Service.JudgeDataType.InputtedDataType;
+import com.tarok.quotegenerator.Service.JudgeDataType.JudgeDataType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@SuppressWarnings("NonAsciiCharacters")
 class JudgeIsbnTest {
 
     JudgeDataType judge = new JudgeDataType();

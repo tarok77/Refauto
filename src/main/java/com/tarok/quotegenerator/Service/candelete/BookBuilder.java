@@ -1,7 +1,8 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.candelete;
 
 import com.tarok.quotegenerator.Repository.Book;
 import com.tarok.quotegenerator.Repository.ValueObjects.*;
+import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translator;
 
 public class BookBuilder {
     private Title title;
@@ -12,7 +13,7 @@ public class BookBuilder {
     private Translator translator;
 
     public BookBuilder title(String titleString) {
-        this.title = new Title(titleString);
+        this.title = Title.nameOf(titleString);
         return this;
     }
 
@@ -37,7 +38,7 @@ public class BookBuilder {
     }
 
     public BookBuilder translator(String translatorString) {
-        this.translator = new Translator(translatorString);
+        this.translator = Translator.nameOf(translatorString);
         return this;
     }
 

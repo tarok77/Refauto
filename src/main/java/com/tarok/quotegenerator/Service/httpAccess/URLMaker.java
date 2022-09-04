@@ -1,4 +1,7 @@
-package com.tarok.quotegenerator.Service;
+package com.tarok.quotegenerator.Service.httpAccess;
+
+import com.tarok.quotegenerator.Service.JudgeDataType.InputtedDataType;
+import com.tarok.quotegenerator.Service.JudgeDataType.JudgeDataType;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +38,7 @@ public class URLMaker {
 
     public String toKokkaiByISBN(String isbn) {
         String query = isbn;
-        //Todo maximumRecordは本番環境で要調整 ISBNに関しては理論上一件のみでいいはず　二件づつ帰ってくる 以下を参照
+//        Todo maximumRecordは本番環境で要調整 ISBNに関しては理論上一件のみでいいはず　二件づつ帰ってくる isbnの桁数が変わるときのミスか
 
 //        String url = "https://iss.ndl.go.jp/api/opensearch?cnt=10&dpid=iss-ndl-opac&isbn=" + isbn ;
         String url = "https:iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=3&recordSchema=dcndl" +
@@ -50,8 +53,6 @@ public class URLMaker {
 //        String url = "https://iss.ndl.go.jp/api/opensearch?cnt=10&dpid=iss-ndl-opac&title=" + encodedTitle;
         String url = "https:iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=20&recordSchema=dcndl" +
                 "&onlyBib=true&recordPacking=xml&dpid=iss-ndl-opac&query=title" + encodedTitle;
-        System.out.println(url);
-
         return url;
     }
 

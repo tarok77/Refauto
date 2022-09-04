@@ -19,7 +19,6 @@ public class Isbn {
         this.isbnExceptLast = number / 10;
         int lastNum = (int) (number % 10);
         this.checkDigit = (char) (lastNum + '0');
-        System.out.println(checkDigit);
     }
 
     public Isbn(String stringNumber) throws IllegalArgumentException {
@@ -29,6 +28,9 @@ public class Isbn {
         this.isbnExceptLast = number;
     }
 
+    public String getIsbn() {
+        return String.valueOf(isbnExceptLast) + checkDigit;
+    }
     private void judgeArgument(long number) throws IllegalArgumentException {
         if (number <= 0) throw new IllegalArgumentException("ISBNの値が不正です");
 
@@ -37,8 +39,9 @@ public class Isbn {
             throw new IllegalArgumentException("ISBNの値が不正です");
         }
     }
-    private void judgeNumberFromString(long number) throws  IllegalArgumentException {
-        if(number <= 0) throw new IllegalArgumentException("ISBNの値が不正です");
+
+    private void judgeNumberFromString(long number) throws IllegalArgumentException {
+        if (number <= 0) throw new IllegalArgumentException("ISBNの値が不正です");
 
         int numberOfDigits = (int) Math.log10(number) + 1;
         if (numberOfDigits != 9 && numberOfDigits != 12) {

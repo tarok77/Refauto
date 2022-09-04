@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@SuppressWarnings("NonAsciiCharacters")
 public class IsbnTest {
     @Test
-    public void Isbnが１０桁もしくは1１３桁である場合以外エラーがでる() throws Exception {
+    public void Isbnが１０桁もしくは1１３桁である場合以外エラーがでる() {
         assertThatThrownBy(() -> new Isbn(-1L)).isInstanceOf(IllegalArgumentException.class).hasMessage("ISBNの値が不正です");
         assertThatThrownBy(() -> new Isbn(1L)).isInstanceOf(IllegalArgumentException.class).hasMessage("ISBNの値が不正です");
         assertThatThrownBy(() -> new Isbn(10000000000L)).isInstanceOf(IllegalArgumentException.class).hasMessage("ISBNの値が不正です");
@@ -30,6 +31,14 @@ public class IsbnTest {
         isbn = new Isbn("123456789X");
         assertThat(isbn.getIsbnExceptLast()).isEqualTo(123456789L);
         assertThat(isbn.getCheckDigit()).isEqualTo('X');
+    }
+
+    @Test
+    public void getISBNがフィールドの値を結合して返すこと() {
+        Isbn sut = new Isbn(1234567890);
+        assertThat(sut.getIsbnExceptLast()).isEqualTo(123456789);
+        assertThat(sut.getCheckDigit()).isEqualTo('0');
+        assertThat(sut.getIsbn()).isEqualTo("1234567890");
     }
 
 }
