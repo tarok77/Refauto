@@ -3,6 +3,7 @@ package com.tarok.quotegenerator.Service.candelete;
 import com.tarok.quotegenerator.Repository.Book;
 import com.tarok.quotegenerator.Repository.ValueObjects.*;
 import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translator;
+import com.tarok.quotegenerator.Repository.ValueObjects.author.Authors;
 
 public class BookBuilder {
     private Title title;

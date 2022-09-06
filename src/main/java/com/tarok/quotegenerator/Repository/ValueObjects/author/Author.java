@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Repository.ValueObjects;
+package com.tarok.quotegenerator.Repository.ValueObjects.author;
 
 import lombok.Data;
 

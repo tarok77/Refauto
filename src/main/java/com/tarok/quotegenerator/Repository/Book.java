@@ -1,7 +1,8 @@
 package com.tarok.quotegenerator.Repository;
 
 import com.tarok.quotegenerator.Repository.ValueObjects.*;
-import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translator;
+import com.tarok.quotegenerator.Repository.ValueObjects.author.Authors;
+import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translators;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +22,14 @@ public class Book {
     //情報の取得法によってはnullになってしまう可能性がある。entityのIDにはできないかな。
     private Isbn isbn;
     //nullでありうる
-    private Translator translator;
+    private Translators translators;
 
     public String getAuthorNames() {
         return authors.getOrRepresentAuthorsName();
     }
-    public String getTranslatorName() {
-        return translator.toString();
+    //TODO　要修正
+    public List<String> getTranslatorName() {
+        return translators.getTranslatorNames();
     }
 
     public void setAuthors(String author) {
@@ -42,18 +44,22 @@ public class Book {
      */
     public static Book format(RawBook raw) {
         var book = new Book();
+        var creatorsConverter = new CreatorsConverter();
         book.setTitle(Title.nameOf(raw.getOptionalTitle().orElse("未発見")));
-        if(!raw.getCreatorList().isEmpty())book.setAuthors(raw.getCreatorList().get(0));
-        if(raw.getCreatorList().size()>=2)book.setTranslator(Translator.nameOf(raw.getCreatorList().get(1)));
+//        if(!raw.getCreatorList().isEmpty())book.setAuthors(raw.getCreatorList().get(0));
+//        if(raw.getCreatorList().size()>=2)book.setTranslators(new Translators(raw.getCreatorList().get(1)));
+//                else book.setTranslators(Translators.notExist());
+        book.setCreators(creatorsConverter.convert(raw));
         book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("未発見")));
         //TODO 以下二つはおかしい
         book.setPublishedYear(new PublishedYear(raw.getOptionalPublishedYear().orElse("1111.1")));
         book.setIsbn(new Isbn(raw.getOptionalIsbn().orElse("1111111111").replaceAll("-", "")));
         return book;
     }
-   //TODO ここから
-//    public static Authors formatAuthors(List<String> creators) {
-//
-//    }
+
+    public void setCreators(CreatorPair pair) {
+        this.authors = new Authors(pair.getAuthors());
+        this.translators = new Translators(pair.getTranslators());
+    }
 
 }

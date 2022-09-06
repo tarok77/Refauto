@@ -1,6 +1,10 @@
 package com.tarok.quotegenerator.Repository.ValueObjects.translator;
 
+import lombok.Data;
+import lombok.ToString;
+
 //共同訳、監訳などを扱うことを考えると案外難しい。nullの問題もある。
+@ToString
 public class Translator {
     private final String translator;
 
@@ -8,9 +12,8 @@ public class Translator {
         this.translator = name;
     }
 
-    @Override
-    public String toString() {
-        return translator;
+    public String getTranslatorName() {
+        return this.translator;
     }
 
     public static Translator nameOf(String translator) {

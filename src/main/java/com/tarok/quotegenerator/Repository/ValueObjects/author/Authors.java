@@ -1,6 +1,6 @@
-package com.tarok.quotegenerator.Repository.ValueObjects;
+package com.tarok.quotegenerator.Repository.ValueObjects.author;
 
-import com.tarok.quotegenerator.Repository.ValueObjects.Author;
+import com.tarok.quotegenerator.Repository.ExistDataType;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,12 +9,19 @@ import java.util.List;
 @Data
 public class Authors {
     private List<Author> authors;
+    ExistDataType dataType;
 
-    public Authors(List<Author> authors) {
-        this.authors = authors;
-    }
     public Authors(Author author) {
         this.authors = List.of(author);
+    }
+    public Authors(ExistDataType dataType) {
+        if(dataType.equals(ExistDataType.NOT_EXIST)) throw new IllegalArgumentException("この操作は認められません");
+
+        this.dataType = ExistDataType.NOT_EXIST;
+        this.authors = new ArrayList<>();
+    }
+    public Authors(List<String> authors) {
+        this.authors = authors.stream().map(Author::nameOf).toList();
     }
 
     public Authors(String author) {
@@ -32,6 +39,11 @@ public class Authors {
         }
 
         return authors.get(0).toString();
+    }
+
+    //データが見つからなかったとき
+    public static Authors notExist() {
+        return new Authors(ExistDataType.NOT_EXIST);
     }
 
     public int size() {

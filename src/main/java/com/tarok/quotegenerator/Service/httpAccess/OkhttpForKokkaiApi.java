@@ -17,7 +17,6 @@ public class OkhttpForKokkaiApi {
     private final BookGetter bookGetter = new BookGetter();
 
 //小さく分けたいがInputStreamを戻り値にするわけにもいかないようでエラーになる。イベント処理のほうを外部化するしかないのかな
-//TODO メソッドを統一できたのでcreateURLに変更する
 
     public void getRawBookFromKokkai(String inputtedData) throws IOException, XMLStreamException {
 
@@ -78,7 +77,6 @@ public class OkhttpForKokkaiApi {
 //            XMLInputFactory factory = XMLInputFactory.newInstance();
 //            XMLEventReader reader = factory.createXMLEventReader(is);
 //
-//            //TODO ここを別クラスにとりだす
 //            while (reader.hasNext()) {
 //                XMLEvent event = reader.nextEvent();
 //                if (event.isStartElement()) {
@@ -94,7 +92,7 @@ public class OkhttpForKokkaiApi {
 //                    }
 //                }
 //            }
-//            //TODO 失敗した場合のfinallyを追加べきか？
+
 //            reader.close();
 //
 //        } catch (XMLStreamException e) {
