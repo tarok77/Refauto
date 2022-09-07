@@ -2,15 +2,17 @@ package com.tarok.quotegenerator.Service.candelete;
 
 import com.tarok.quotegenerator.Repository.Book;
 import com.tarok.quotegenerator.Repository.ValueObjects.*;
-import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translator;
-import com.tarok.quotegenerator.Repository.ValueObjects.author.Authors;
+import com.tarok.quotegenerator.Repository.ValueObjects.creator.translator.Translator;
+import com.tarok.quotegenerator.Repository.ValueObjects.creator.author.Authors;
+import com.tarok.quotegenerator.Repository.ValueObjects.isbn.IsbnImpl;
+import com.tarok.quotegenerator.Repository.ValueObjects.publishedyear.PublishedYearImpl;
 
 public class BookBuilder {
     private Title title;
     private Authors authors;
-    private PublishedYear publishedYear;
+    private PublishedYearImpl publishedYear;
     private Publisher publisher;
-    private Isbn isbn;
+    private IsbnImpl isbn;
     private Translator translator;
 
     public BookBuilder title(String titleString) {
@@ -24,7 +26,7 @@ public class BookBuilder {
     }
 
     public BookBuilder publishedYear(String yearString) {
-        this.publishedYear = new PublishedYear(yearString);
+        this.publishedYear = new PublishedYearImpl(yearString);
         return this;
     }
 
@@ -34,7 +36,7 @@ public class BookBuilder {
     }
 
     public BookBuilder isbn(String isbnString) {
-        this.isbn = new Isbn(isbnString);
+        this.isbn = new IsbnImpl(isbnString);
         return this;
     }
 

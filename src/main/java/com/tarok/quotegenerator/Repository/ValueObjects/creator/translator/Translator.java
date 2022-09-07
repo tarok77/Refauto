@@ -1,6 +1,5 @@
-package com.tarok.quotegenerator.Repository.ValueObjects.translator;
+package com.tarok.quotegenerator.Repository.ValueObjects.creator.translator;
 
-import lombok.Data;
 import lombok.ToString;
 
 //共同訳、監訳などを扱うことを考えると案外難しい。nullの問題もある。

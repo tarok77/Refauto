@@ -39,8 +39,15 @@ public class CreatorsConverter {
 
     //'著'の字が含まれるまでのリストをList<Author>に、それ以降'訳'の字が含まれるまでをList<translator>に収容
     //長さが二以上で'編'の字が含まれる場合引用表記で使わないので削除
+    //次のような失敗　
+    // Translator(translator=ロバート・S.コス 共著), Translator(translator=瀬谷啓介)] 一つ目にも著が付いてるのか？
+    //<dc:creator>ロバート・C.マーチン 著</dc:creator>
+    //<dc:creator>ジェームス・W.ニューカーク, ロバート・S.コス 共著</dc:creator>
+    //<dc:creator>瀬谷啓介 訳</dc:creator>
+    //例外的すぎると考えるか
     public CreatorPair groupCreators(List<String> creators) {
-        if (creators.isEmpty()) throw new IllegalArgumentException("リストが空です");//TODO 例外でいいのか　要検討
+        if (creators.isEmpty()) return new CreatorPair();
+                //new IllegalArgumentException("リストが空です");//TODO 例外でいいのか　要検討
 
         var creatorPair = new CreatorPair();
         int index = 0;

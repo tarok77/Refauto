@@ -10,9 +10,11 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 @Component
 public class BookGetter {
@@ -48,7 +50,7 @@ public class BookGetter {
                         rawBook.setIsbn(event.asCharacters().getData());
                     }
                 }
-
+                //TODO 部分的なタイトルが入ってくる　短編集など　dc:titleをもとにしたものに変える
                 if (prefix.equals("dcterms") && localName.equals("title")) {
                     event = reader.nextEvent();
                     if (event.isCharacters()) {
@@ -56,25 +58,27 @@ public class BookGetter {
                     }
                 }
 
-                if(prefix.equals("dcterms") && localName.equals("publisher")) {
+                if (prefix.equals("dcterms") && localName.equals("publisher")) {
                     //直前のタグでは確定できないため二つ外のdcterms:pulisherを参考にしているためそこまで飛ばす
-                    reader.nextTag(); reader.nextTag();
+                    reader.nextTag();
+                    reader.nextTag();
                     event = reader.nextEvent();
-                    if(event.isCharacters()) {
+                    if (event.isCharacters()) {
                         rawBook.setPublisher(event.asCharacters().getData());
                     }
                 }
 
-                if(prefix.equals("dc") && localName.equals("creator")) {
+                if (prefix.equals("dc") && localName.equals("creator")) {
                     event = reader.nextEvent();
-                    if(event.isCharacters()) {
+                    if (event.isCharacters()) {
                         rawBook.addCreatorList(event.asCharacters().getData());
                     }
                 }
 
-                if(prefix.equals("dcterms") && localName.equals("date")) {
+                if (prefix.equals("dcterms") && localName.equals("date")) {
                     event = reader.nextEvent();
-                    if(event.isCharacters()) {
+                    //TODO 不正値が多いため対策が必要
+                    if (event.isCharacters()) {
                         rawBook.setPublishedYear(event.asCharacters().getData());
                     }
                 }
@@ -90,7 +94,15 @@ public class BookGetter {
             }
         }
         System.out.println(bookList.size());
-        bookList.stream().map(Book::format).forEach(System.out::println);
+//        bookList.stream().map(Book::format).forEach(System.out::println);
+        for (RawBook book: bookList) {
+            try {
+                System.out.println(Book.format(book));
+            } catch (DateTimeParseException | IllegalArgumentException e) {
+                e.getStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
 //{http://purl.org/dc/elements/1.1/}creator http://purl.org/dc/elements/1.1/ com.sun.org.apache.xerces.internal.util.NamespaceContextWrapper@2eab3090com.sun.xml.internal.stream.util.ReadOnlyIterator@2b7b4b2

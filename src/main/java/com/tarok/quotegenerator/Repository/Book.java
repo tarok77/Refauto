@@ -1,8 +1,12 @@
 package com.tarok.quotegenerator.Repository;
 
 import com.tarok.quotegenerator.Repository.ValueObjects.*;
-import com.tarok.quotegenerator.Repository.ValueObjects.author.Authors;
-import com.tarok.quotegenerator.Repository.ValueObjects.translator.Translators;
+import com.tarok.quotegenerator.Repository.ValueObjects.creator.author.Authors;
+import com.tarok.quotegenerator.Repository.ValueObjects.creator.translator.Translators;
+import com.tarok.quotegenerator.Repository.ValueObjects.isbn.Isbn;
+import com.tarok.quotegenerator.Repository.ValueObjects.isbn.IsbnImpl;
+import com.tarok.quotegenerator.Repository.ValueObjects.publishedyear.PublishedYear;
+import com.tarok.quotegenerator.Repository.ValueObjects.publishedyear.PublishedYearImpl;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -42,18 +46,16 @@ public class Book {
      * @param raw  未加工の書籍データ
      * @return 加工後の書籍データ
      */
+    //TODO ヴァリューオブジェクト生成失敗時停止ではなくスキップして作業を進めさせる
     public static Book format(RawBook raw) {
         var book = new Book();
         var creatorsConverter = new CreatorsConverter();
         book.setTitle(Title.nameOf(raw.getOptionalTitle().orElse("未発見")));
-//        if(!raw.getCreatorList().isEmpty())book.setAuthors(raw.getCreatorList().get(0));
-//        if(raw.getCreatorList().size()>=2)book.setTranslators(new Translators(raw.getCreatorList().get(1)));
-//                else book.setTranslators(Translators.notExist());
         book.setCreators(creatorsConverter.convert(raw));
         book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("未発見")));
-        //TODO 以下二つはおかしい
-        book.setPublishedYear(new PublishedYear(raw.getOptionalPublishedYear().orElse("1111.1")));
-        book.setIsbn(new Isbn(raw.getOptionalIsbn().orElse("1111111111").replaceAll("-", "")));
+        //以下二つ取得失敗時は空文字でnullオブジェクトを生成　想定外の値はユーザに確認を求めるためStringのまま転送
+        book.setPublishedYear(PublishedYear.of(raw.getOptionalPublishedYear().orElse("")));
+        book.setIsbn(Isbn.numberOf(raw.getOptionalIsbn().orElse("").replaceAll("-", "")));
         return book;
     }
 

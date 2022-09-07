@@ -1,9 +1,9 @@
-package com.tarok.quotegenerator.Repository.ValueObjects;
+package com.tarok.quotegenerator.Repository.ValueObjects.isbn;
 
 import lombok.Data;
 
 @Data
-public class Isbn {
+public class IsbnImpl implements Isbn{
     //エンコードの関係でStringじゃないとだめかも
     // TODO 10桁のisbnには最終桁にチェックデジットのX（１０の意味) が含まれる 以下wikiより
 //    （チェックディジットを除いた左側の桁から10、9、8…2を掛けてそれらの和を取る。和を11で割って出た余りを11から引く）
@@ -14,14 +14,14 @@ public class Isbn {
     private char checkDigit;
 
     //    引数にXが含まれる可能性があるためStringにしないとまずい
-    public Isbn(long number) throws IllegalArgumentException {
+    public IsbnImpl(long number) throws IllegalArgumentException {
         judgeArgument(number);
         this.isbnExceptLast = number / 10;
         int lastNum = (int) (number % 10);
         this.checkDigit = (char) (lastNum + '0');
     }
 
-    public Isbn(String stringNumber) throws IllegalArgumentException {
+    public IsbnImpl(String stringNumber) throws IllegalArgumentException {
         String rest = clipCheckDigit(stringNumber);
         long number = Long.parseLong(rest);
         judgeNumberFromString(number);
@@ -30,6 +30,21 @@ public class Isbn {
 
     public String getIsbn() {
         return String.valueOf(isbnExceptLast) + checkDigit;
+    }
+
+    public static Isbn numberOf(String number) {
+        try {
+            return new IsbnImpl(number);
+        } catch (IllegalArgumentException e) {
+            return new SuspiciousIsbn(number);
+        }
+    }
+    public static Isbn numberOf(long number) {
+        try {
+            return new IsbnImpl(number);
+        } catch (IllegalArgumentException e) {
+            return new SuspiciousIsbn(number);
+        }
     }
     private void judgeArgument(long number) throws IllegalArgumentException {
         if (number <= 0) throw new IllegalArgumentException("ISBNの値が不正です");

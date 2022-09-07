@@ -1,4 +1,4 @@
-package com.tarok.quotegenerator.Repository.ValueObjects.translator;
+package com.tarok.quotegenerator.Repository.ValueObjects.creator.translator;
 
 import com.tarok.quotegenerator.Repository.ExistDataType;
 import lombok.ToString;
