@@ -1,6 +1,7 @@
 package com.tarok.quotegenerator.Repository;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -10,15 +11,16 @@ import java.util.Optional;
 //XMLから抽出した未加工のStringを保存し、それをBook型に整形する
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RawBook {
     private String title;
 
     private List<String> creatorList = new ArrayList<>();
-
+    @EqualsAndHashCode.Include
     private String publishedYear;
 
     private String publisher;
-
+    @EqualsAndHashCode.Include
     private String isbn;
 
     //コピーコンストラクタ
@@ -41,7 +43,7 @@ public class RawBook {
         return true;
     }
 
-    //情報の獲得に失敗した場合にNPEを避けるため
+    //情報の獲得に失敗した場合にNPEを避けるためのOptionalを返すゲッター群
     public Optional<String> getOptionalTitle() {
         return Optional.ofNullable(title);
     }
@@ -61,5 +63,7 @@ public class RawBook {
     public void addCreatorList(String creator) {
         creatorList.add(creator);
     }
+
+    //重複を排除するために
 }
 

@@ -19,7 +19,7 @@ import java.util.zip.DataFormatException;
 @Component
 public class BookGetter {
     //filterを使わないならEventReaderである必要はない
-    public void createBookFromEventReader(XMLEventReader reader) throws XMLStreamException {
+    public List<RawBook> createBookFromEventReader(XMLEventReader reader) throws XMLStreamException {
         //詰めて戻り値にするためのブックリスト
         List<RawBook> bookList = new ArrayList<>();
         //xmlが破損しているときのnullPointerException対策でインスタンスはいれておく
@@ -32,8 +32,9 @@ public class BookGetter {
             //タグの内容に応じて本文を格納していき、EndElementがrecordのときにリストに収納する。
             if (event.isStartElement()) {
                 StartElement el = event.asStartElement();
-                String localName = el.getName().getLocalPart();
                 String prefix = el.getName().getPrefix();
+                String localName = el.getName().getLocalPart();
+
                 if (localName.equals("record")) {
                     rawBook = new RawBook();//.setdefault
                 }
@@ -47,11 +48,15 @@ public class BookGetter {
                     }
                     //上記の条件を満たしたときだけeventが進み以下の条件を満たす
                     if (event.isCharacters()) {
-                        rawBook.setIsbn(event.asCharacters().getData());
+                        rawBook.setIsbn(event.asCharacters()
+                                .getData().replaceAll("-",""));
                     }
                 }
                 //TODO 部分的なタイトルが入ってくる　短編集など　dc:titleをもとにしたものに変える
-                if (prefix.equals("dcterms") && localName.equals("title")) {
+                if (prefix.equals("dc") && localName.equals("title")) {
+                    //直前のタグでは確定できないため二つ外のdc:titleを参考にしているためそこまで飛ばす
+                    reader.nextTag();
+                    reader.nextTag();
                     event = reader.nextEvent();
                     if (event.isCharacters()) {
                         rawBook.setTitle(event.asCharacters().getData());
@@ -95,7 +100,9 @@ public class BookGetter {
         }
         System.out.println(bookList.size());
 //        bookList.stream().map(Book::format).forEach(System.out::println);
-        for (RawBook book: bookList) {
+        //重複データが多く帰ってくるのでISBNと出版年月がかぶっているものを削除
+        var onlyOneBookList = bookList.stream().distinct().toList();
+        for (RawBook book: onlyOneBookList) {
             try {
                 System.out.println(Book.format(book));
             } catch (DateTimeParseException | IllegalArgumentException e) {
@@ -103,6 +110,8 @@ public class BookGetter {
                 System.out.println(e.getMessage());
             }
         }
+
+        return bookList;
     }
 }
 //{http://purl.org/dc/elements/1.1/}creator http://purl.org/dc/elements/1.1/ com.sun.org.apache.xerces.internal.util.NamespaceContextWrapper@2eab3090com.sun.xml.internal.stream.util.ReadOnlyIterator@2b7b4b2

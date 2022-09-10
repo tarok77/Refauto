@@ -32,7 +32,8 @@ public class SecurityConfig {
                     ).authorizeHttpRequests(authz -> authz
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                             .antMatchers("/h2-console/**").permitAll()
-                            .mvcMatchers("/","/login","/submit/isbn","/submit/title").permitAll()
+                            .mvcMatchers("/","/login","/submit/isbn",
+                                    "/submit/title","/confirmed").permitAll()
                             .mvcMatchers().hasRole("USER")
                             .anyRequest().authenticated()
                     ).headers().frameOptions().disable().and().cors().and().csrf().disable()//本番環境では取る。

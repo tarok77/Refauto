@@ -1,13 +1,16 @@
 package com.tarok.quotegenerator.Controller;
 
+import com.tarok.quotegenerator.Repository.RawBook;
 import com.tarok.quotegenerator.Service.candelete.GetBookService;
 import com.tarok.quotegenerator.Service.candelete.OkhttpForGoogleApi;
 import com.tarok.quotegenerator.Service.httpAccess.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class QuoteController {
@@ -39,12 +42,28 @@ public class QuoteController {
     }
 
     @PostMapping("/submit/title")
-    public String submitTitle(@RequestParam("title") String titleFromHTML) throws IOException, XMLStreamException {
+    //TODO modelandviewとの違い
+    public String submitTitle(@RequestParam("title") String titleFromHTML, Model model) throws IOException, XMLStreamException {
         String title = titleFromHTML.replaceAll(" ", "");
         if (title.equals("")) return "redirect:/";
-        httpForKokkai.getRawBookFromKokkai(title);
 
-        return "redirect:/";
+        List<RawBook> rawBookList = httpForKokkai.getRawBookFromKokkai(title);
+        //TODO　リストが空であるときの対応
+        List<BookForView> bookList = rawBookList.stream().map(BookForView::toView).toList();
+
+        model.addAttribute("list", bookList);
+
+        return "/books";
+    }
+
+    @PostMapping("/confirmed")
+    //Formの受け取りをオブジェクトにすると受け渡し側オブジェクトと干渉するのか動作させることができない。いったんこれで。
+    public String show(@RequestParam("title") String title, @RequestParam("creators") String creators, @RequestParam("publishedYear") String year
+            , @RequestParam("publisher") String publisher, Model model) {
+        String bookInfo = creators + year + title +  publisher;
+        System.out.println(bookInfo);
+        model.addAttribute("bookinfo", bookInfo);
+        return "/citedbook";
     }
 }
 //9784274226298

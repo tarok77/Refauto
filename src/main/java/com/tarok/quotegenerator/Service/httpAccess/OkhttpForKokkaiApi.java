@@ -1,5 +1,6 @@
 package com.tarok.quotegenerator.Service.httpAccess;
 
+import com.tarok.quotegenerator.Repository.RawBook;
 import com.tarok.quotegenerator.Service.BookGetter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,6 +11,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class OkhttpForKokkaiApi {
     private final OkHttpClient client = new OkHttpClient();
@@ -18,7 +20,7 @@ public class OkhttpForKokkaiApi {
 
 //小さく分けたいがInputStreamを戻り値にするわけにもいかないようでエラーになる。イベント処理のほうを外部化するしかないのかな
 
-    public void getRawBookFromKokkai(String inputtedData) throws IOException, XMLStreamException {
+    public List<RawBook> getRawBookFromKokkai(String inputtedData) throws IOException, XMLStreamException {
 
         //受けっとったISBNからURLを作成しXML形式のレスポンスを取得する
         String url = URLmaker.createURL(inputtedData);
@@ -40,13 +42,15 @@ public class OkhttpForKokkaiApi {
             XMLInputFactory factory = XMLInputFactory.newInstance();
             try {
                 reader = factory.createXMLEventReader(is);
-                bookGetter.createBookFromEventReader(reader);
+                List<RawBook> bookList = bookGetter.createBookFromEventReader(reader);
+                return bookList;
             }catch (XMLStreamException e) {
                 e.printStackTrace();
                 throw new XMLStreamException();
             } finally {
                 if (!(reader == null)) reader.close();
             }
+
         //TODO 要検討
         } catch (IOException e) {
             e.printStackTrace();
