@@ -13,33 +13,35 @@
 <body>
 <div class="container">
     <!--    <div class="row gx-4 gx-lg-5">&lt;!&ndash; 意味を調べる&ndash;&gt;-->
-    <div class="card-group">
-        <div th:each="book:${list}" th:object="${book}">
-            <div class="card" style="width: 26rem;">
-                <div class="card-body">
-                    <ol>
-                        <li th:text="*{title}">title</li>
-                        <li th:text="*{creators}">creators</li>
-                        <li th:text="*{publishedYear}">publishedYear</li>
-                        <li th:text="*{publisher}">publisher</li>
-                        <li th:text="*{isbn}">isbn</li>
-                    </ol>
-                    <div class="card-footer bg-transparent">
-                        <p class="text-center text-muted">
-                            a/X
-                        </p>
-                    </div>
-
-                    <form action="/confirmed" th:action="@{/confirmed}" method="post">
-                        <input type="hidden" name="title" th:value="*{title}">
-                        <input type="hidden" name="publisher" th:value="*{publisher}">
-                        <input type="hidden" name="isbn" th:value="*{isbn}">
-                        <input type="hidden" name="publishedYear" th:value="*{publishedYear}">
-                        <input type="hidden" name="creators" th:value="*{creators}">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-outline-primary " type="submit">この本に確定</button>
+        <div class="card-group">
+            <div th:each="book, s:${list}" th:object="${book}">
+                <div class="m-1">
+                <div class="card" style="width: 26rem;">
+                    <div class="card-body">
+                        <ol>
+                            <li th:text="*{title}">title</li>
+                            <li th:text="*{creators}">creators</li>
+                            <li th:text="*{publishedYear}">publishedYear</li>
+                            <li th:text="*{publisher}">publisher</li>
+                            <li th:text="*{isbn}">isbn</li>
+                        </ol>
+                        <div class="card-footer bg-transparent">
+                            <p class="text-center text-muted" th:text="|${s.count}/${s.size}|">
+                                x/y
+                            </p>
                         </div>
-                    </form>
+
+                        <form action="/confirmed" th:action="@{/confirmed}" method="post">
+                            <input type="hidden" name="title" th:value="*{title}">
+                            <input type="hidden" name="publisher" th:value="*{publisher}">
+                            <input type="hidden" name="isbn" th:value="*{isbn}">
+                            <input type="hidden" name="publishedYear" th:value="*{publishedYear}">
+                            <input type="hidden" name="creators" th:value="*{creators}">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary " type="submit">この本に確定</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
