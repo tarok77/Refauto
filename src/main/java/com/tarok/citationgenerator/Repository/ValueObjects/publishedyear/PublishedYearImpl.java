@@ -23,11 +23,11 @@ public class PublishedYearImpl implements PublishedYear {
         return new PublishedYearImpl(yearAndMonth);
     }
 
-    public int getYear() {
-        return YearAndMonth.getYear();
+    public String getYear() {
+        return String.valueOf(YearAndMonth.getYear());
     }
 
-    public int getMonth() {
-        return YearAndMonth.getMonthValue();
+    public String getMonth() {
+        return String.valueOf(YearAndMonth.getMonthValue());
     }
 }

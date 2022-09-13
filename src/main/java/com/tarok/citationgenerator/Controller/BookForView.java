@@ -2,11 +2,13 @@ package com.tarok.citationgenerator.Controller;
 
 import com.tarok.citationgenerator.Repository.RawBook;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * modelにのせviewに送るためのクラス
  */
 @Data
+@NoArgsConstructor
 public class BookForView {
     private String title;
 
@@ -18,9 +20,9 @@ public class BookForView {
 
     private String isbn;
 
-    private BookForView(RawBook book) {
+    public BookForView(RawBook book) {
         this.title = book.getTitle();
-        this.publishedYear = book.getPublishedYear();
+        this.publishedYear = book.getPublishedYearAndMonth();
         this.publisher = book.getPublisher();
         this.isbn = book.getIsbn();
 

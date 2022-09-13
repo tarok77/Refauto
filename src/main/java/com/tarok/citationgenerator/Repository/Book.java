@@ -27,8 +27,9 @@ public class Book {
     private Translators translators;
 
     public String getAuthorNames() {
-        return authors.getOrRepresentAuthorsName();
+        return authors.getOrRepresent();
     }
+
     //TODO　要修正
     public List<String> getTranslatorName() {
         return translators.getTranslatorNames();
@@ -41,7 +42,8 @@ public class Book {
     /**
      * RawBookのもつフィールドデータのフォーマットを行った後それを使ってBookインスタンスを生成するファクトリメソッド
      * nullである場合は取得失敗をユーザーに伝えられる形に。
-     * @param raw  未加工の書籍データ
+     *
+     * @param raw 未加工の書籍データ
      * @return 加工後の書籍データ
      */
     //TODO ヴァリューオブジェクト生成失敗時停止ではなくスキップして作業を進めさせる
@@ -61,5 +63,32 @@ public class Book {
         this.authors = new Authors(pair.getAuthors());
         this.translators = new Translators(pair.getTranslators());
     }
+    //TODO 要追加
 
+    public static Book of(String title, String creators, String publishedYear, String publisher, String isbn) {
+        var book = new Book();
+        book.title = Title.nameOf(title);
+//        book.authors = Authors.notExist();
+        //book.translator = ;
+        book.publishedYear = PublishedYear.of(publishedYear);
+        book.publisher = Publisher.nameOf(publisher);
+        book.isbn = Isbn.numberOf(isbn);
+
+        return book;
+    }
+
+    public String convertAPAReference() {
+        return authors.getOrRepresent() + "(" + publishedYear.getYear() + ")." +
+                title.getWithBrackets() + translators.toString() + "、" + publisher.getName();
+    }
+
+    public String convertChicagoReference() {
+        return authors.getOrRepresent() + title.getWithBrackets() + "(" +
+                translators.toString() + ")" + publisher.getName() + "、" + publishedYear.getYear();
+    }
+
+    public String convertMLAReference() {
+        return authors.getOrRepresent() + "、" + title.getWithBrackets() + "、" +
+                translators.toString() + "、" + publisher.getName() + "、" + publishedYear.getYear() + "年。";
+    }
 }

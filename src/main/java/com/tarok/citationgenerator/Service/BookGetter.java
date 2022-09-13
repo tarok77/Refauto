@@ -83,7 +83,7 @@ public class BookGetter {
                     event = reader.nextEvent();
                     //TODO 不正値が多いため対策が必要
                     if (event.isCharacters()) {
-                        rawBook.setPublishedYear(event.asCharacters().getData());
+                        rawBook.setPublishedYearAndMonth(event.asCharacters().getData());
                     }
                 }
             }

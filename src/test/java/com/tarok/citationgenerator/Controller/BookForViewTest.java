@@ -14,7 +14,7 @@ class BookForViewTest {
     void forViewによるrawBookStringリストのStringへの変更() {
         var target = new RawBook();
         target.setIsbn("11111");target.setCreatorList(List.of("test","test2"));target.setPublisher("publisher");
-        target.setTitle("testbook");target.setPublishedYear("1901");
+        target.setTitle("testbook");target.setPublishedYearAndMonth("1901");
         var result = BookForView.toView(target);
         assertThat(result.getCreators()).isEqualTo("test test2");
     }

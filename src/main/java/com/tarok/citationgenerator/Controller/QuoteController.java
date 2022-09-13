@@ -1,5 +1,6 @@
 package com.tarok.citationgenerator.Controller;
 
+import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
 import com.tarok.citationgenerator.Service.candelete.GetBookService;
 import com.tarok.citationgenerator.Service.candelete.OkhttpForGoogleApi;
@@ -48,7 +49,9 @@ public class QuoteController {
         if (title.equals("")) return "redirect:/";
 
         List<RawBook> rawBookList = httpForKokkai.getRawBookFromKokkai(title);
-        //TODO　リストが空であるときの対応
+        //リストが空であるときの対応
+        if (rawBookList.isEmpty()) return "/noresult";
+
         List<BookForView> bookList = rawBookList.stream().map(BookForView::toView).toList();
 
         model.addAttribute("list", bookList);
@@ -57,11 +60,12 @@ public class QuoteController {
     }
 
     @PostMapping("/confirmed")
-    //Formの受け取りをオブジェクトにすると受け渡し側オブジェクトと干渉するのか動作させることができない。いったんこれで。
-    public String show(@RequestParam("title") String title, @RequestParam("creators") String creators, @RequestParam("publishedYear") String year
-            , @RequestParam("publisher") String publisher, Model model) {
-        String bookInfo = creators + year + title +  publisher;
-        System.out.println(bookInfo);
+    //TODO Formの受け取りをオブジェクトにすると受け渡し側オブジェクトと干渉するのか動作させることができない。いったんこれで。
+    public String show(@RequestParam("title") String title, @RequestParam("creators") String creators,
+                       @RequestParam("publishedYear") String year, @RequestParam("publisher") String publisher,
+                       @RequestParam("isbn") String isbn, Model model) {
+        var book = Book.of(title,creators,year,publisher,isbn);
+        var bookInfo = book.convertAPAReference();
         model.addAttribute("bookinfo", bookInfo);
         return "/citedbook";
     }

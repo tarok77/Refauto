@@ -13,4 +13,9 @@ public class SuspiciousPublishedYear implements PublishedYear {
     public SuspiciousPublishedYear(String yearAndMonth) {
         this.information = yearAndMonth;
     }
+
+    @Override
+    public String getYear() {
+        return information;
+    }
 }

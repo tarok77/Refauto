@@ -13,4 +13,5 @@ public interface PublishedYear {
         }
 
     }
+    String getYear();
 }

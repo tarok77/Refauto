@@ -11,13 +11,14 @@ import java.util.Optional;
 //XMLから抽出した未加工のStringを保存し、それをBook型に整形する
 @Data
 @NoArgsConstructor
+//検索結果の重複排除用　ISBNだけでは使いまわしがあるため出版年月を含める
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RawBook {
     private String title;
 
     private List<String> creatorList = new ArrayList<>();
     @EqualsAndHashCode.Include
-    private String publishedYear;
+    private String publishedYearAndMonth;
 
     private String publisher;
     @EqualsAndHashCode.Include
@@ -27,7 +28,7 @@ public class RawBook {
     public RawBook(RawBook rawBook) {
         this.title = rawBook.getTitle();
         this.creatorList = rawBook.getCreatorList();
-        this.publishedYear = rawBook.getPublishedYear();
+        this.publishedYearAndMonth = rawBook.getPublishedYearAndMonth();
         this.publisher = rawBook.getPublisher();
         this.isbn = rawBook.getIsbn();
     }
@@ -36,7 +37,7 @@ public class RawBook {
     public boolean isNoData() {
         if (!(title == null)) return false;
         if (!(creatorList == null)) return false;
-        if (!(publishedYear == null)) return false;
+        if (!(publishedYearAndMonth == null)) return false;
         if (!(publisher == null)) return false;
         if (!(isbn == null)) return false;
 
@@ -49,7 +50,7 @@ public class RawBook {
     }
 
     public Optional<String> getOptionalPublishedYear() {
-        return Optional.ofNullable(publishedYear);
+        return Optional.ofNullable(publishedYearAndMonth);
     }
 
     public Optional<String> getOptionalPublisher() {
@@ -63,7 +64,5 @@ public class RawBook {
     public void addCreatorList(String creator) {
         creatorList.add(creator);
     }
-
-    //重複を排除するために
 }
 

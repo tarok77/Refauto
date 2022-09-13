@@ -5,7 +5,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
-@ToString
+
 public class Translators {
     List<Translator> translators;
     ExistDataType dataType;
@@ -21,7 +21,7 @@ public class Translators {
     }
 
     private Translators(ExistDataType dataType) {
-        if(!dataType.equals(ExistDataType.NOT_EXIST)) throw new IllegalArgumentException("この操作は認められていません。");
+        if (!dataType.equals(ExistDataType.NOT_EXIST)) throw new IllegalArgumentException("この操作は認められていません。");
 
         //npe対策で空のリストを持たせる
         this.translators = new ArrayList<>();
@@ -35,7 +35,27 @@ public class Translators {
     public ExistDataType arePresent() {
         return this.dataType;
     }
+
     public List<String> getTranslatorNames() {
         return translators.stream().map(Translator::getTranslatorName).toList();
+    }
+
+    public boolean isEmpty() {
+        if (translators.isEmpty()) return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        String result = null;
+        for (var translator : translators) {
+            if (result == null) {
+                result = translator.getTranslatorName();
+                continue;
+            }
+            result += translator.getTranslatorName();
+        }
+        result += "訳";
+        return result;
     }
 }

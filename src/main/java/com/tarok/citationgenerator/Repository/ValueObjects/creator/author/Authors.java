@@ -29,7 +29,9 @@ public class Authors {
     }
 
     //作者が三人以上であるとき最初の作者に「...他」をつけて代表させる。
-    public String getOrRepresentAuthorsName() {
+    public String getOrRepresent() {
+        if(authors.isEmpty())return "NO_DATA";
+
         if(authors.size() > 2) {
             return authors.get(0).toString() + "他";
         }
