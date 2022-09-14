@@ -17,13 +17,13 @@ class PublishedYearImplTest {
         //日付が一文字の時のテスト
         var sut2 = new PublishedYearImpl("1997.9");
         assertThat(sut2.getYearAndMonth()).isEqualTo(YearMonth.of(1997, 9));
-        assertThat(sut2.getMonth()).isEqualTo(9);
+        assertThat(sut2.getMonth()).isEqualTo("9");
     }
     @Test
     public void 年月のgetが期待された値を返す() {
         var sut = new PublishedYearImpl("2010.12");
-        assertThat(sut.getYear()).isEqualTo(2010);
-        assertThat(sut.getMonth()).isEqualTo(12);
+        assertThat(sut.getYear()).isEqualTo("2010");
+        assertThat(sut.getMonth()).isEqualTo("12");
 
     }
 

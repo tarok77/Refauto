@@ -38,9 +38,7 @@ public class URLMaker {
 
     public String toKokkaiByISBN(String isbn) {
         String query = isbn;
-//        Todo maximumRecordは本番環境で要調整 ISBNに関しては理論上一件のみでいいはず　二件づつ帰ってくる isbnの桁数が変わるときのミスか
 
-//        String url = "https://iss.ndl.go.jp/api/opensearch?cnt=10&dpid=iss-ndl-opac&isbn=" + isbn ;
         String url = "https:iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=3&recordSchema=dcndl" +
                 "&onlyBib=true&recordPacking=xml&query=isbn=" + isbn + "&dpid=iss-ndl-opac";
 
@@ -50,8 +48,7 @@ public class URLMaker {
     public String toKokkaiByTitle(String title) {
         String encodedTitle = URLEncoder.encode("=" + title, StandardCharsets.UTF_8);
         //Todo 同上
-//        String url = "https://iss.ndl.go.jp/api/opensearch?cnt=10&dpid=iss-ndl-opac&title=" + encodedTitle;
-        String url = "https:iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=20&recordSchema=dcndl" +
+        String url = "https:iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=30&recordSchema=dcndl" +
                 "&onlyBib=true&recordPacking=xml&dpid=iss-ndl-opac&query=title" + encodedTitle;
         return url;
     }

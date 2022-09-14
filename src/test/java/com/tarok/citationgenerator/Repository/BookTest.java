@@ -25,9 +25,12 @@ public class BookTest {
         this.sut.setTranslators(new Translators("溝口雄三"));
     }
     @Test
-    public void getterの動作() {
-        assertThat(sut.getAuthorNames()).isEqualTo("王陽明");
-        assertThat(sut.getTranslatorName()).isEqualTo(List.of("溝口雄三"));
+    public void getAuthorsNamesによる著者の名前の獲得() {
+        assertThat(sut.getAuthorsNames()).isEqualTo("王陽明");
+    }
+    @Test
+    public void getTranslatorsNamesによる翻訳者の名前の獲得と読点の付与() {
+        assertThat(sut.getTranslatorsNames()).isEqualTo("溝口雄三訳、");
     }
 
     @Test

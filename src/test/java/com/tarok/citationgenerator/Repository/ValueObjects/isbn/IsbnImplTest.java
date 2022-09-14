@@ -1,6 +1,7 @@
-package com.tarok.citationgenerator.Repository;
+package com.tarok.citationgenerator.Repository.ValueObjects.isbn;
 
 import com.tarok.citationgenerator.Repository.ValueObjects.isbn.IsbnImpl;
+import com.tarok.citationgenerator.Repository.ValueObjects.isbn.NullIsbn;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +40,12 @@ public class IsbnImplTest {
         assertThat(sut.getIsbnExceptLast()).isEqualTo(123456789);
         assertThat(sut.getCheckDigit()).isEqualTo('0');
         assertThat(sut.getIsbn()).isEqualTo("1234567890");
+    }
+    @Test
+    void numberOfによるnullObjectの生成() {
+        var actual = IsbnImpl.numberOf("");
+        assertThat(actual.getIsbn()).isEqualTo(new NullIsbn().getIsbn());
+
     }
 
 }

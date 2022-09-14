@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//XMLから抽出した未加工のStringを保存し、それをBook型に整形する
+//XMLから抽出した未加工のStringを保存し、それをBook型に整形する　同一性によって重複したデータをふるいにかける役割もある
 @Data
 @NoArgsConstructor
 //検索結果の重複排除用　ISBNだけでは使いまわしがあるため出版年月を含める
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RawBook {
     private String title;
-
+    @EqualsAndHashCode.Include//翻訳者の情報の詳細さが違うことがありユーザーに選んでもらうためデータとして必要
     private List<String> creatorList = new ArrayList<>();
     @EqualsAndHashCode.Include
     private String publishedYearAndMonth;

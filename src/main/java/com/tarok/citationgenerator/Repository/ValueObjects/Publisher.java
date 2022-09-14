@@ -8,11 +8,13 @@ public class Publisher {
 
     public Publisher(String publisherName) {
         if(publisherName.length()>30)throw new IllegalArgumentException();
-        this.publisherName = publisherName;
+        //元データに（発売）と含まれていることがあるのでそれを取り除いておく
+        String replaced = publisherName.replaceAll("（|\\(|\\)|）|発売","").trim();
+        this.publisherName = replaced;
     }
 
     public String getName() {
-        return publisherName;
+        return this.publisherName;
     }
 
     public static Publisher nameOf(String name) {

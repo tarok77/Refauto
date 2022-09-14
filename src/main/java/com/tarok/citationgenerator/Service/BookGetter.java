@@ -75,7 +75,9 @@ public class BookGetter {
                 if (prefix.equals("dc") && localName.equals("creator")) {
                     event = reader.nextEvent();
                     if (event.isCharacters()) {
-                        rawBook.addCreatorList(event.asCharacters().getData());
+                        //「スペース + 著」という名前が「著」だけを含むデータと重複して返ってくるためあとで排除するための前処理
+                        String creator = event.asCharacters().getData().replaceAll("　著| 著", "著");
+                        rawBook.addCreatorList(creator);
                     }
                 }
 
@@ -101,16 +103,17 @@ public class BookGetter {
 //        bookList.stream().map(Book::format).forEach(System.out::println);
         //重複データが多く帰ってくるのでISBNと出版年月がかぶっているものを削除
         var onlyOneBookList = bookList.stream().distinct().toList();
-        for (RawBook book: onlyOneBookList) {
-            try {
-                System.out.println(Book.format(book));
-            } catch (DateTimeParseException | IllegalArgumentException e) {
-                e.getStackTrace();
-                System.out.println(e.getMessage());
-            }
-        }
+//        for (RawBook book: onlyOneBookList) {
+//            try {
+//                System.out.println(Book.format(book));
+//            } catch (DateTimeParseException | IllegalArgumentException e) {
+//                e.getStackTrace();
+//                System.out.println(e.getMessage());
+//            }
+//        }
 
-        return bookList;
+//        return bookList;
+        return onlyOneBookList;
     }
 }
 //{http://purl.org/dc/elements/1.1/}creator http://purl.org/dc/elements/1.1/ com.sun.org.apache.xerces.internal.util.NamespaceContextWrapper@2eab3090com.sun.xml.internal.stream.util.ReadOnlyIterator@2b7b4b2

@@ -5,6 +5,7 @@ import com.tarok.citationgenerator.Service.BookGetter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.stereotype.Service;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@Service
 public class OkhttpForKokkaiApi {
     private final OkHttpClient client = new OkHttpClient();
     private final URLMaker URLmaker = new URLMaker();

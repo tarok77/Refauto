@@ -14,7 +14,7 @@ class CreatorsConverterTest {
         var sut = new CreatorsConverter();
         var target = new RawBook();
         target.setCreatorList(List.of("David Thomas, Andrew Hunt共著 ; 村上雅章訳"));
-        var result = sut.convert(target);
+        var result = sut.convertRawBook(target);
 
         assertThat(result.getAuthors().get(1)).isEqualTo("Andrew Hunt");
         assertThat(result.getTranslators().get(0)).isEqualTo("村上雅章");

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * modelにのせviewに送るためのクラス
+ * modelにのせviewにRawBookを送るためのクラス
  */
 @Data
 @NoArgsConstructor
@@ -26,8 +26,8 @@ public class BookForView {
         this.publisher = book.getPublisher();
         this.isbn = book.getIsbn();
 
-        this.creators = book.getCreatorList().stream().reduce(" ",(a, b) -> a + " " + b).trim();
-
+        //TODO　もっとましな書き方ありそう
+        this.creators = book.getCreatorList().stream().reduce(" ",(a, b) -> a + "," + b).replaceFirst(",","").trim();
     }
 
     public static BookForView toView(RawBook book) {

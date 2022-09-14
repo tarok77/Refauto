@@ -8,8 +8,6 @@ import com.tarok.citationgenerator.Repository.ValueObjects.publishedyear.Publish
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Data
 @Component
 public class Book {
@@ -26,13 +24,13 @@ public class Book {
     //nullでありうる
     private Translators translators;
 
-    public String getAuthorNames() {
+    public String getAuthorsNames() {
         return authors.getOrRepresent();
     }
 
     //TODO　要修正
-    public List<String> getTranslatorName() {
-        return translators.getTranslatorNames();
+    public String getTranslatorsNames() {
+        return translators.getTranslatorsNames();
     }
 
     public void setAuthors(String author) {
@@ -51,7 +49,7 @@ public class Book {
         var book = new Book();
         var creatorsConverter = new CreatorsConverter();
         book.setTitle(Title.nameOf(raw.getOptionalTitle().orElse("未発見")));
-        book.setCreators(creatorsConverter.convert(raw));
+        book.setCreators(creatorsConverter.convertRawBook(raw));
         book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("未発見")));
         //以下二つ取得失敗時は空文字でnullオブジェクトを生成　想定外の値はユーザに確認を求めるためStringのまま転送
         book.setPublishedYear(PublishedYear.of(raw.getOptionalPublishedYear().orElse("")));
@@ -67,9 +65,11 @@ public class Book {
 
     public static Book of(String title, String creators, String publishedYear, String publisher, String isbn) {
         var book = new Book();
+        var convertor = new CreatorsConverter();
+        var creatorPair = convertor.convertFromString(creators);
+
         book.title = Title.nameOf(title);
-//        book.authors = Authors.notExist();
-        //book.translator = ;
+        book.setCreators(creatorPair);
         book.publishedYear = PublishedYear.of(publishedYear);
         book.publisher = Publisher.nameOf(publisher);
         book.isbn = Isbn.numberOf(isbn);
@@ -78,17 +78,17 @@ public class Book {
     }
 
     public String convertAPAReference() {
-        return authors.getOrRepresent() + "(" + publishedYear.getYear() + ")." +
-                title.getWithBrackets() + translators.toString() + "、" + publisher.getName();
+        return authors.getOrRepresent() + "(" + publishedYear.getYear() + ")" +
+                title.getWithBrackets() + translators.getTranslatorsNames() + publisher.getName();
     }
 
     public String convertChicagoReference() {
         return authors.getOrRepresent() + title.getWithBrackets() + "(" +
-                translators.toString() + ")" + publisher.getName() + "、" + publishedYear.getYear();
+                translators.getTranslatorsNames() + ")" + publisher.getName() +  publishedYear.getYear();
     }
 
     public String convertMLAReference() {
         return authors.getOrRepresent() + "、" + title.getWithBrackets() + "、" +
-                translators.toString() + "、" + publisher.getName() + "、" + publishedYear.getYear() + "年。";
+                translators.getTranslatorsNames() + "、" + publisher.getName() + publishedYear.getYear() + "年。";
     }
 }

@@ -15,8 +15,21 @@ public class CreatorsConverter {
      * @param raw 変換するCreatorフィールドを持つRawBookインスタンス
      * @return 分類が終わったCreatorPair
      */
-    public CreatorPair convert(RawBook raw) {
+    public CreatorPair convertRawBook(RawBook raw) {
         List<String> creatorList = raw.getCreatorList();
+        var dividedAuthorAndTranslator = divideAuthorAndTranslator(creatorList);
+        var divided = divideCreators(dividedAuthorAndTranslator);
+        var grouped = groupCreators(divided);
+        return grouped;
+    }
+
+    public CreatorPair convertFromString(String creators) {
+        //TODO 取る
+        System.out.println(creators);
+        //取得できていないときは空のリストを持つPairを返しておく　呼び出し側でNO_DATAに変換されNPEは起きない
+        if(creators.isBlank()) return new CreatorPair();
+
+        List<String> creatorList = List.of(creators.split(","));
         var dividedAuthorAndTranslator = divideAuthorAndTranslator(creatorList);
         var divided = divideCreators(dividedAuthorAndTranslator);
         var grouped = groupCreators(divided);
@@ -55,7 +68,7 @@ public class CreatorsConverter {
             String author = creators.get(index);
 
             if (author.contains("著")) {
-                creatorPair.addAuthor(author.replaceAll("著|共|", "").trim());
+                creatorPair.addAuthor(author.replaceAll("著|共|[\\[\\]]", "").trim());
                 index++;
                 break;
             }
@@ -63,8 +76,8 @@ public class CreatorsConverter {
         }
         for (; index < creators.size(); index++) {
             String translator = creators.get(index);
-            if (creators.get(index).contains("訳")) {
-                creatorPair.addTranslator(translator.replaceAll("訳","").trim());
+            if (translator.contains("訳")) {
+                creatorPair.addTranslator(translator.replaceAll("訳|[\\[\\]]","").trim());
                 break;
             }
 

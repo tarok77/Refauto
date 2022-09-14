@@ -33,6 +33,7 @@ public class IsbnImpl implements Isbn{
     }
 
     public static Isbn numberOf(String number) {
+        if(number.isEmpty())return new NullIsbn();
         try {
             return new IsbnImpl(number);
         } catch (IllegalArgumentException e) {

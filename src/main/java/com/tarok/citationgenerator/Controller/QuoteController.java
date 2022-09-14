@@ -2,7 +2,6 @@ package com.tarok.citationgenerator.Controller;
 
 import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
-import com.tarok.citationgenerator.Service.candelete.GetBookService;
 import com.tarok.citationgenerator.Service.candelete.OkhttpForGoogleApi;
 import com.tarok.citationgenerator.Service.httpAccess.OkhttpForKokkaiApi;
 import org.springframework.stereotype.Controller;
@@ -15,12 +14,10 @@ import java.util.List;
 
 @Controller
 public class QuoteController {
-    private final OkhttpForGoogleApi http;
-    private final OkhttpForKokkaiApi httpForKokkai = new OkhttpForKokkaiApi();
-    private final GetBookService service = new GetBookService();
+    private final OkhttpForKokkaiApi httpForKokkai;
 
-    public QuoteController(OkhttpForGoogleApi http) {
-        this.http = http;
+    public QuoteController(OkhttpForKokkaiApi httpForKokkai) {
+        this.httpForKokkai = httpForKokkai;
     }
 
     @GetMapping("/")
@@ -32,14 +29,19 @@ public class QuoteController {
     //isbnでも二つのレコードが帰る可能性があるかも そういえば岩波文庫の使いまわし問題などもあったのでidとして機能していないかも知れない。
     //タイトルだけでも複数　and 検索ができるapiかどうか調べる
     //例　https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&query=isbn=9784274226298
-    public String submitIsbn(@RequestParam("ISBN") String IsbnFromHTML) throws IOException, XMLStreamException {
-        String isbn = IsbnFromHTML.replaceAll("-", "").replaceAll(" ", "");
+    public String submitIsbn(@RequestParam("ISBN") String IsbnFromHTML, Model model) throws IOException, XMLStreamException {
+        //整形し、空のリクエストであれば受け付けずリダイレクト
+        String isbn = IsbnFromHTML.replaceAll("-| ", "");
         if (isbn.equals("")) return "redirect:/";
 
         System.out.println(isbn);
-        httpForKokkai.getRawBookFromKokkai(isbn);
+        List<RawBook> rawBookList = httpForKokkai.getRawBookFromKokkai(isbn);
+        if(rawBookList.isEmpty())return "/noresult";
 
-        return "redirect:/";
+        List<BookForView> bookList = rawBookList.stream().map(BookForView::toView).toList();
+        model.addAttribute("list", bookList);
+
+        return "/books";
     }
 
     @PostMapping("/submit/title")
@@ -65,6 +67,8 @@ public class QuoteController {
                        @RequestParam("publishedYear") String year, @RequestParam("publisher") String publisher,
                        @RequestParam("isbn") String isbn, Model model) {
         var book = Book.of(title,creators,year,publisher,isbn);
+        //TODO 取る
+        System.out.println(book);
         var bookInfo = book.convertAPAReference();
         model.addAttribute("bookinfo", bookInfo);
         return "/citedbook";
