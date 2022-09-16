@@ -1,6 +1,5 @@
-package com.tarok.citationgenerator.Service;
+package com.tarok.citationgenerator.Service.httpAccess;
 
-import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
 import org.springframework.stereotype.Component;
 
@@ -10,13 +9,12 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Component
-public class BookGetter {
+public class FromEventToBook {
     //filterを使わないならEventReaderである必要はない
     public List<RawBook> createBookFromEventReader(XMLEventReader reader) throws XMLStreamException {
         //詰めて戻り値にするためのブックリスト

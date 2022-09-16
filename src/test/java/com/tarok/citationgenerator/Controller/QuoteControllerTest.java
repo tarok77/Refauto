@@ -34,8 +34,8 @@ class QuoteControllerTest {
     }
 
     @Test
-    void submitTitle() throws Exception {
-        this.mock.perform(post("/submit/title").param("title", "美術の物語")).
+    void submitTitleAndAuthor() throws Exception {
+        this.mock.perform(post("/submit/title").param("title", "美術の物語").param("author", "")).
                 andDo(print()).andExpect(status().isOk());
     }
 

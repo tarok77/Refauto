@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JudgeDataType {
-    //TODO 十桁　ISBNの最終桁がXであるときisbnではないと判断してしまう　要修正　ユーザーからの入力しか判断しないため影響は限定的
     public InputtedDataType judge(String inputData) {
         int length = inputData.length();
 

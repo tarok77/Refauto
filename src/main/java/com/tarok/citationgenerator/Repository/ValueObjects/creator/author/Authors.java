@@ -1,8 +1,6 @@
 package com.tarok.citationgenerator.Repository.ValueObjects.creator.author;
 
-import com.tarok.citationgenerator.Repository.ExistDataType;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -48,9 +48,9 @@ public class Book {
     public static Book format(RawBook raw) {
         var book = new Book();
         var creatorsConverter = new CreatorsConverter();
-        book.setTitle(Title.nameOf(raw.getOptionalTitle().orElse("未発見")));
+        book.setTitle(Title.nameOf(raw.getOptionalTitle().orElse("NO_DATA")));
         book.setCreators(creatorsConverter.convertRawBook(raw));
-        book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("未発見")));
+        book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("NO_DATA")));
         //以下二つ取得失敗時は空文字でnullオブジェクトを生成　想定外の値はユーザに確認を求めるためStringのまま転送
         book.setPublishedYear(PublishedYear.of(raw.getOptionalPublishedYear().orElse("")));
         book.setIsbn(Isbn.numberOf(raw.getOptionalIsbn().orElse("").replaceAll("-", "")));

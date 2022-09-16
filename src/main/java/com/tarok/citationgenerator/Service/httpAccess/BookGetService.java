@@ -1,7 +1,6 @@
 package com.tarok.citationgenerator.Service.httpAccess;
 
 import com.tarok.citationgenerator.Repository.RawBook;
-import com.tarok.citationgenerator.Service.BookGetter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,17 +14,34 @@ import java.io.InputStream;
 import java.util.List;
 
 @Service
-public class OkhttpForKokkaiApi {
+public class BookGetService {
     private final OkHttpClient client = new OkHttpClient();
     private final URLMaker URLmaker = new URLMaker();
-    private final BookGetter bookGetter = new BookGetter();
+    private final FromEventToBook fromEventToBook = new FromEventToBook();
 
-//小さく分けたいがInputStreamを戻り値にするわけにもいかないようでエラーになる。イベント処理のほうを外部化するしかないのかな
+    //インプットの値に合わせたメソッドの実行群
+    public List<RawBook> getRawBookListByTitle(String title) throws XMLStreamException, IOException {
+        String url = URLmaker.createURLByTitle(title);
+        return executeRequest(url);
+    }
 
-    public List<RawBook> getRawBookFromKokkai(String inputtedData) throws IOException, XMLStreamException {
+    public List<RawBook> getRawBookListByAuthor(String author) throws XMLStreamException, IOException {
+        String url = URLmaker.CreateURLByAuthor(author);
+        return executeRequest(url);
+    }
 
-        //受けっとったISBNからURLを作成しXML形式のレスポンスを取得する
-        String url = URLmaker.createURL(inputtedData);
+    public List<RawBook> getRawBookListByIsbn(String isbn) throws XMLStreamException, IOException {
+        String url = URLmaker.createURLByISBN(isbn);
+        return executeRequest(url);
+    }
+
+    public List<RawBook> getRawBookListByTitleAndAuthor(String title, String author) throws XMLStreamException, IOException {
+        String url = URLmaker.createURLByTitleAndAuthor(title, author);
+        return executeRequest(url);
+    }
+
+    //共通の実行処理 okhttpによるアクセスとXML処理FromEventToBookの呼び出し
+    public List<RawBook> executeRequest(String url) throws IOException, XMLStreamException {
         //TODO 開発中のデータ比較用　本番環境ではとる
         System.out.println(url);
 
@@ -44,16 +60,16 @@ public class OkhttpForKokkaiApi {
             XMLInputFactory factory = XMLInputFactory.newInstance();
             try {
                 reader = factory.createXMLEventReader(is);
-                List<RawBook> bookList = bookGetter.createBookFromEventReader(reader);
+                List<RawBook> bookList = fromEventToBook.createBookFromEventReader(reader);
                 return bookList;
-            }catch (XMLStreamException e) {
+            } catch (XMLStreamException e) {
                 e.printStackTrace();
                 throw new XMLStreamException();
             } finally {
                 if (!(reader == null)) reader.close();
             }
 
-        //TODO 要検討
+            //TODO 要検討
         } catch (IOException e) {
             e.printStackTrace();
             throw new IOException();
@@ -65,7 +81,7 @@ public class OkhttpForKokkaiApi {
 
 
 //    public void getXMLbyTitle(String title) throws IOException {
-//        String url = URLmaker.toKokkaiByTitle(title);
+//        String url = URLmaker.createURLByTitle(title);
 //        Request request = new Request.Builder()
 //                .url(url)
 //                .build();

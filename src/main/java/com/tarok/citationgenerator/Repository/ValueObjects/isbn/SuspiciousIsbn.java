@@ -19,6 +19,6 @@ public class SuspiciousIsbn implements Isbn{
 
     @Override
     public String getIsbn() {
-        return information;
+        return information + "### データの形式が想定外です。###";
     }
 }

@@ -16,6 +16,6 @@ public class SuspiciousPublishedYear implements PublishedYear {
 
     @Override
     public String getYear() {
-        return information;
+        return information + "### データの形式が想定外です、修正してお使いください。###";
     }
 }

@@ -32,6 +32,7 @@ public class IsbnImpl implements Isbn{
         return String.valueOf(isbnExceptLast) + checkDigit;
     }
 
+    //TODO interfaceに移す
     public static Isbn numberOf(String number) {
         if(number.isEmpty())return new NullIsbn();
         try {
