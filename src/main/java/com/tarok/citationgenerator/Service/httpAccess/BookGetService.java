@@ -15,9 +15,14 @@ import java.util.List;
 
 @Service
 public class BookGetService {
+    private final URLMaker URLmaker;
+    private final FromEventToBook fromEventToBook;
     private final OkHttpClient client = new OkHttpClient();
-    private final URLMaker URLmaker = new URLMaker();
-    private final FromEventToBook fromEventToBook = new FromEventToBook();
+
+    public BookGetService(URLMaker maker, FromEventToBook fromEventToBook) {
+        this.URLmaker = maker;
+        this.fromEventToBook = fromEventToBook;
+    }
 
     //インプットの値に合わせたメソッドの実行群
     public List<RawBook> getRawBookListByTitle(String title) throws XMLStreamException, IOException {

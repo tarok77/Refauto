@@ -1,7 +1,7 @@
 package com.tarok.citationgenerator.Service;
 
 import com.tarok.citationgenerator.Service.JudgeDataType.InputtedDataType;
-import com.tarok.citationgenerator.Service.JudgeDataType.JudgeDataType;
+import com.tarok.citationgenerator.Service.JudgeDataType.JudgeISBN;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -9,7 +9,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @SuppressWarnings("NonAsciiCharacters")
 class JudgeIsbnTestImplTest {
 
-    JudgeDataType judge = new JudgeDataType();
+    JudgeISBN judge = new JudgeISBN();
 
     @Test
     public void 十文字の半角数字にONEBYTEISBNを返す() {

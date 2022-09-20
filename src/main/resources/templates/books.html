@@ -30,7 +30,8 @@
                                 x/y
                             </p>
                         </div>
-                        <!--データを転送するためのhiddenfield-->
+                        <!-- TODO データを転送するためのhiddenfield, th:fieldを使うとvalueが書き換えられ消える。
+                        th:fieldを使わないとオブジェクトにバインドされない-->
                         <form action="/confirmed" th:action="@{/confirmed}" method="post">
                             <input type="hidden" name="title" th:value="*{title}">
                             <input type="hidden" name="publisher" th:value="*{publisher}">
