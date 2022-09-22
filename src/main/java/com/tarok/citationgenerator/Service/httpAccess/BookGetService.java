@@ -69,6 +69,7 @@ public class BookGetService {
                 reader = factory.createXMLEventReader(is);
                 List<RawBook> bookList = fromEventToBook.createBookFromEventReader(reader);
                 return bookList;
+
             } catch (XMLStreamException e) {
                 log.warn("XMLの読み取りに失敗",e);
                 throw e;

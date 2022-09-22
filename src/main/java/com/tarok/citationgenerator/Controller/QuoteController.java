@@ -28,6 +28,15 @@ public class QuoteController {
         this.bookGetService = bookGetService;
     }
 
+    @ModelAttribute ("isbn")
+    public ISBNForm setUpISBNForm() {
+        return new ISBNForm();
+    }
+    @ModelAttribute
+    public TitleAndAuthor setUpTitleAndAuthorForm() {
+        return new TitleAndAuthor();
+    }
+
     @GetMapping("/")
     public String home(@ModelAttribute("isbn")ISBNForm isbn, @ModelAttribute TitleAndAuthor titleAndAuthor) {
         return "home";
@@ -39,7 +48,7 @@ public class QuoteController {
     //@ISBNのValidationがハイフン交じりなどをはじいてしまうため使わないでおく
     public String submitIsbn(@Validated @ModelAttribute("isbn")ISBNForm isbnForm,BindingResult result, Model model) throws IOException, XMLStreamException {
         //TODO メッセージをつける
-        if(result.hasErrors()) return "redirect:/";
+        if(result.hasErrors()) return "home";
         //整形し、空のリクエストであれば受け付けずリダイレクト
         String isbn = isbnForm.getIsbn().replaceAll("-| ", "");
         if (isbn.equals("")) return "redirect:/";
@@ -63,7 +72,7 @@ public class QuoteController {
     @PostMapping("/submit/title")
     public String submitTitle(@Validated @ModelAttribute TitleAndAuthor titleAndAuthor, BindingResult result, Model model) throws IOException, XMLStreamException {
         //TODO　メッセージをつける
-        if(result.hasErrors()) return "redirect:/";
+        if(result.hasErrors()) return "home";
 
         String title = titleAndAuthor.getTitle();
         String author = titleAndAuthor.getAuthor();

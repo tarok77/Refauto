@@ -8,10 +8,10 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ISBNForm {
-    @NotBlank
+    @NotBlank(message = "数値を入力してください。")
     String isbn;
 
-    @AssertTrue
+    @AssertTrue(message = "ISBNは10桁か13桁です。")
     public boolean isISBNLength() {
         if(isbn.length()==10) return true;
         if(isbn.length()==13) return true;

@@ -14,7 +14,7 @@ public class TitleAndAuthor {
 
     String author;
 
-    @AssertTrue
+    @AssertTrue(message = "どちらかは入力してください")
     public boolean isFilledEitherOne() {
         return (!(title.isBlank()&&author.isBlank()));
     }

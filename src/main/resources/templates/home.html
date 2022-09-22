@@ -29,6 +29,11 @@
                                     <button class="btn btn-primary " type="submit">submit</button>
                                 </div>
                             </div>
+                            <ul th:if="${#fields.hasErrors('*')}">
+                                <div class="text-danger">
+                                <li th:each="err:${#fields.detailedErrors()}" th:text="${err.message}"></li>
+                                </div>
+                            </ul>
                         </form>
                         <div class="w-100"><br></div>
                         <!--改行-->
@@ -41,6 +46,11 @@
                                     <button class="btn btn-primary " type="submit">submit</button>
                                 </div>
                             </div>
+                            <ul th:if="${#fields.hasErrors('*')}">
+                                <div class="text-danger">
+                                <li th:each="err:${#fields.detailedErrors()}" th:text="${err.message}"></li>
+                                </div>
+                            </ul>
                         </form>
                     </div>
                 </div>
