@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.properties
+logback.xml
 
 ### STS ###
 .apt_generated
@@ -198,3 +199,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij
 mvnw
 mvnw.cmd
+

@@ -1,5 +1,7 @@
 package com.tarok.citationgenerator.Service.JudgeDataType;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
  * 入力されたISBNの判定を行う。
  * ISBNではない、全角のISBN、半角のISBNの三種
  */
+@Slf4j
 public class JudgeISBN {
     public InputtedDataType judge(String inputData) {
         int length = inputData.length();
@@ -58,14 +61,15 @@ public class JudgeISBN {
      * フォームに入力されたISBNを判定し半角ISBNであることを保証する
      * @param inputtedString　フォームのISBN欄に入力された値
      * @return 半角のISBN
-     * @throws IllegalArgumentException isbnではないとJudgeDataTypeが判定した場合に発生
+     * @throws IllegalArgumentException 入力がisbnではない場合に発生
      */
     public String normalizeByteType(String inputtedString) {
         var judge = new JudgeISBN();
         InputtedDataType result = judge.judge(inputtedString);
 
-        //違う場合はTitleとみなす
+        //フォームのValidationではじかれるはずなのでエラーを出力する
         if (result == InputtedDataType.NOT_ISBN) {
+            log.warn("ISBNに不正な入力値");
             throw new IllegalArgumentException("isbnではありません");
         }
 

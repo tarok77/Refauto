@@ -1,10 +1,18 @@
 package com.tarok.citationgenerator.Controller;
 
+import com.tarok.citationgenerator.Controller.Form.ISBNForm;
+import com.tarok.citationgenerator.Controller.Form.TitleAndAuthor;
 import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
 import com.tarok.citationgenerator.Service.httpAccess.BookGetService;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.tool.schema.extract.spi.TableInformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.XMLStreamException;
@@ -12,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class QuoteController {
     private final BookGetService bookGetService;
 
@@ -20,19 +29,22 @@ public class QuoteController {
     }
 
     @GetMapping("/")
-    public String home() {
+    public String home(@ModelAttribute("isbn")ISBNForm isbn, @ModelAttribute TitleAndAuthor titleAndAuthor) {
         return "home";
     }
 
     @PostMapping("/submit/isbn")
     //isbnでも二つのレコードが帰る可能性がある　使いまわしと登録データの詳細さの違い
     //例　https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&query=isbn=9784274226298
-    public String submitIsbn(@RequestParam("ISBN") String IsbnFromHTML, Model model) throws IOException, XMLStreamException {
+    //@ISBNのValidationがハイフン交じりなどをはじいてしまうため使わないでおく
+    public String submitIsbn(@Validated @ModelAttribute("isbn")ISBNForm isbnForm,BindingResult result, Model model) throws IOException, XMLStreamException {
+        //TODO メッセージをつける
+        if(result.hasErrors()) return "redirect:/";
         //整形し、空のリクエストであれば受け付けずリダイレクト
-        String isbn = IsbnFromHTML.replaceAll("-| ", "");
+        String isbn = isbnForm.getIsbn().replaceAll("-| ", "");
         if (isbn.equals("")) return "redirect:/";
 
-        System.out.println(isbn);
+        log.info(isbn);
         List<RawBook> rawBookList = bookGetService.getRawBookListByIsbn(isbn);
         if (rawBookList.isEmpty()) return "/noresult";
         //戻ってきた本が一種類に特定された場合ユーザーに選んでもらう画面遷移をとばす
@@ -42,21 +54,26 @@ public class QuoteController {
             return "/citedbook";
         }
         //複数返ってきたときはユーザーに選んでもらうためリストにしてビューに送る
-        List<BookForView> bookList = rawBookList.stream().map(BookForView::toView).toList();
+        List<BookForView> bookList = rawBookList.stream().map(BookForView::ConvertToView).toList();
         model.addAttribute("list", bookList);
 
         return "/books";
     }
 
     @PostMapping("/submit/title")
-    //TODO modelandviewとの違い
-    public String submitTitle(@RequestParam("title") String title, @RequestParam("author") String author, Model model) throws IOException, XMLStreamException {
+    public String submitTitle(@Validated @ModelAttribute TitleAndAuthor titleAndAuthor, BindingResult result, Model model) throws IOException, XMLStreamException {
+        //TODO　メッセージをつける
+        if(result.hasErrors()) return "redirect:/";
+
+        String title = titleAndAuthor.getTitle();
+        String author = titleAndAuthor.getAuthor();
+
         if (title.isBlank() && author.isBlank()) return "redirect:/";
         //TODO NPE確認
         List<RawBook> rawBookList;
-        if(author.isBlank()) {
+        if (author.isBlank()) {
             rawBookList = bookGetService.getRawBookListByTitle(title);
-        } else if(title.isBlank()) {
+        } else if (title.isBlank()) {
             rawBookList = bookGetService.getRawBookListByAuthor(author);
         } else {
             rawBookList = bookGetService.getRawBookListByTitleAndAuthor(title, author);
@@ -70,7 +87,7 @@ public class QuoteController {
             return "/citedbook";
         }
 
-        List<BookForView> bookList = rawBookList.stream().map(BookForView::toView).toList();
+        List<BookForView> bookList = rawBookList.stream().map(BookForView::ConvertToView).toList();
 
         model.addAttribute("list", bookList);
 
@@ -83,8 +100,7 @@ public class QuoteController {
                        @RequestParam("publishedYear") String year, @RequestParam("publisher") String publisher,
                        @RequestParam("isbn") String isbn, Model model) {
         var book = Book.of(title, creators, year, publisher, isbn);
-        //TODO 取る
-        System.out.println(book);
+
         var bookInfo = book.convertAPAReference();
         model.addAttribute("bookinfo", bookInfo);
         return "/citedbook";

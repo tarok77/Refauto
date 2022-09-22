@@ -1,5 +1,7 @@
 package com.tarok.citationgenerator.Repository;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
  * xmlから抽出したRAWBOOKの形式をBOOKに適合するように直す。とくにcreatorフィールドとauthors,translatorsを適合させることを使命とする
  * 便宜上authorとtranslatorを合わせたものをcreatorとよんでいる
  */
+@Slf4j
 public class CreatorsConverter {
     /**
      * rawBookのCreatorフィールドをBookに渡すためのCreatorPairに変換する
@@ -24,8 +27,6 @@ public class CreatorsConverter {
     }
 
     public CreatorPair convertFromString(String creators) {
-        //TODO 取る
-        System.out.println(creators);
         //取得できていないときは空のリストを持つPairを返しておく　呼び出し側でNO_DATAに変換されNPEは起きない
         if(creators.isBlank()) return new CreatorPair();
 

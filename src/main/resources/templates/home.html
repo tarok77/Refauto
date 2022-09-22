@@ -17,13 +17,13 @@
             <div class="h-75">
                 <div class="w-100 p-5">
                     <div class="col">
-                        <form action="/submit/title" th:action="@{/submit/title}" method="post">
+                        <form action="/submit/title" th:action="@{/submit/title}" method="post" th:object="${titleAndAuthor}">
                             <div class="form-floating mb-1">
-                                <input type="text" name="title" class="form-control" placeholder="title">
+                                <input type="text" th:field="*{title}" class="form-control" placeholder="title">
                                 <label for="floatingInput">作品名を入力してください</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="author" class="form-control" placeholder="author">
+                                <input type="text" th:field="*{author}" class="form-control" placeholder="author">
                                 <label for="floatingInput">著者名を入力してください</label>
                                 <div class="d-grid gap-2">
                                     <button class="btn btn-primary " type="submit">submit</button>
@@ -32,9 +32,9 @@
                         </form>
                         <div class="w-100"><br></div>
                         <!--改行-->
-                        <form action="/submit/isbn" th:action="@{/submit/isbn}" method="post">
+                        <form action="/submit/isbn" th:action="@{/submit/isbn}" method="post" th:object="${isbn}">
                             <div class="form-floating mb-3">
-                                <input type="text" name="ISBN" class="form-control" id="floatingInput"
+                                <input type="text" th:field="*{isbn}" class="form-control" id="floatingInput"
                                        placeholder="ISBN">
                                 <label for="floatingInput">ISBNを入力してください</label>
                                 <div class="d-grid gap-2">

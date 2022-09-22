@@ -1,6 +1,8 @@
 package com.tarok.citationgenerator.Service.httpAccess;
 
 import com.tarok.citationgenerator.Repository.RawBook;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.xml.stream.XMLEventReader;
@@ -14,12 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
+@Slf4j
 public class FromEventToBook {
     //filterを使わないならEventReaderである必要はない
     public List<RawBook> createBookFromEventReader(XMLEventReader reader) throws XMLStreamException {
         //詰めて戻り値にするためのブックリスト
         List<RawBook> bookList = new ArrayList<>();
-        //xmlが破損しているときのnullPointerException対策でインスタンスはいれておく
+        //xmlが破損しているときのnullPointerException対策で空のインスタンスをいれておく
         RawBook rawBook = new RawBook();
 
         while (reader.hasNext()) {
@@ -33,9 +36,9 @@ public class FromEventToBook {
                 String localName = el.getName().getLocalPart();
 
                 if (localName.equals("record")) {
-                    rawBook = new RawBook();//.setdefault
+                    rawBook = new RawBook();
                 }
-                //TODO データタイプの設定が必要
+
                 if (localName.equals("identifier")) {
                     Iterator<Attribute> attributes = el.getAttributes();
                     while (attributes.hasNext()) {
@@ -49,7 +52,7 @@ public class FromEventToBook {
                                 .getData().replaceAll("-",""));
                     }
                 }
-                //TODO 部分的なタイトルが入ってくる　短編集など　dc:titleをもとにしたものに変える
+
                 if (prefix.equals("dc") && localName.equals("title")) {
                     //直前のタグでは確定できないため二つ外のdc:titleを参考にしているためそこまで飛ばす
                     reader.nextTag();
@@ -97,20 +100,9 @@ public class FromEventToBook {
                 }
             }
         }
-        System.out.println(bookList.size());
-//        bookList.stream().map(Book::format).forEach(System.out::println);
+        log.info(String.valueOf(bookList.size()));
         //重複データが多く帰ってくるのでISBNと出版年月がかぶっているものを削除
         var onlyOneBookList = bookList.stream().distinct().toList();
-//        for (RawBook book: onlyOneBookList) {
-//            try {
-//                System.out.println(Book.format(book));
-//            } catch (DateTimeParseException | IllegalArgumentException e) {
-//                e.getStackTrace();
-//                System.out.println(e.getMessage());
-//            }
-//        }
-
-//        return bookList;
         return onlyOneBookList;
     }
 }

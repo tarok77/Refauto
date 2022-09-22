@@ -34,6 +34,7 @@ public class BookTest {
     }
 
     @Test
+    //TODO　assertに変更
     void convertAPAReference() {
         String apaReference = sut.convertAPAReference();
         System.out.println(apaReference);
