@@ -36,6 +36,10 @@ public class QuoteController {
     public TitleAndAuthor setUpTitleAndAuthorForm() {
         return new TitleAndAuthor();
     }
+    @ModelAttribute("form")
+    public BookForView setUpFrom() {
+        return new BookForView();
+    }
 
     @GetMapping("/")
     public String home(@ModelAttribute("isbn")ISBNForm isbn, @ModelAttribute TitleAndAuthor titleAndAuthor) {
@@ -104,11 +108,9 @@ public class QuoteController {
     }
 
     @PostMapping("/confirmed")
-    //TODO Formの受け取りをオブジェクトにすると受け渡し側オブジェクトと干渉するのか動作させることができない。いったんこれで。
-    public String show(@RequestParam("title") String title, @RequestParam("creators") String creators,
-                       @RequestParam("publishedYear") String year, @RequestParam("publisher") String publisher,
-                       @RequestParam("isbn") String isbn, Model model) {
-        var book = Book.of(title, creators, year, publisher, isbn);
+    public String show(@ModelAttribute("form") BookForView form, Model model) {
+        var book = Book.of(form.getTitle(), form.getCreators(),form.getPublishedYear(),
+                form.getPublisher(), form.getIsbn());
 
         var bookInfo = book.convertAPAReference();
         model.addAttribute("bookinfo", bookInfo);
