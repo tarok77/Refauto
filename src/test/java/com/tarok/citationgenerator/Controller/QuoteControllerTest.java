@@ -27,7 +27,7 @@ class QuoteControllerTest {
 
     @Test
     void submitIsbn() throws Exception {
-        this.mock.perform(post("/submit/isbn").param("ISBN", "1234567890")).
+        this.mock.perform(post("/submit/isbn").param("isbn", "1234567890")).
                 andDo(print()).andExpect(status().isOk());
     }
 

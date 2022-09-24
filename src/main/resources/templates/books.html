@@ -30,7 +30,8 @@
                             </p>
                         </div>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-outline-primary " type="submit" th:onclick="|insertHidden('card${s.count}')|">この本に確定
+                            <button class="btn btn-outline-primary " type="submit"
+                                    th:onclick="|insertHidden('card${s.count}')|">この本に確定
                             </button>
                         </div>
                     </div>
@@ -38,7 +39,8 @@
             </div>
         </div>
     </div>
-    <form name="formHidden" action="/confirmed" th:action="@{/confirmed}" method="post" id="hiddenField" th:object="${form}">
+    <form name="formHidden" action="/confirmed" th:action="@{/confirmed}" method="post" id="hiddenField"
+          th:object="${form}">
         <input type="hidden" th:field="*{title}" value="">
         <input type="hidden" th:field="*{creators}" value="">
         <input type="hidden" th:field="*{publishedYear}" value="">
@@ -52,7 +54,7 @@
 </script>
 <script>
     let insertHidden =
-    function (id) {
+    function(id) {
         const els = document.getElementById(id);
         const fields = document.getElementById("hiddenField");
 
@@ -61,8 +63,6 @@
         }
         document.formHidden.submit();
     }
-
-
 </script>
 </body>
 

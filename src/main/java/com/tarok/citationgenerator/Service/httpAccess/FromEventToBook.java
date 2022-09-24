@@ -72,7 +72,7 @@ public class FromEventToBook {
                         rawBook.setPublisher(event.asCharacters().getData());
                     }
                 }
-
+                //作者と翻訳者の詰め込み
                 if (prefix.equals("dc") && localName.equals("creator")) {
                     event = reader.nextEvent();
                     if (event.isCharacters()) {
@@ -84,17 +84,17 @@ public class FromEventToBook {
 
                 if (prefix.equals("dcterms") && localName.equals("date")) {
                     event = reader.nextEvent();
-                    //TODO 不正値が多いため対策が必要
                     if (event.isCharacters()) {
                         rawBook.setPublishedYearAndMonth(event.asCharacters().getData());
                     }
                 }
             }
+            //</record>で一冊分が終了とみなしrawBookインスタンスをリストに詰め込む
             if (event.isEndElement()) {
                 EndElement el = event.asEndElement();
                 String prefix = el.getName().getPrefix();
                 String localPart = el.getName().getLocalPart();
-
+                //<dcndl:record>が本の終わり以外で出現するため取り除く
                 if (!prefix.equals("dcndl") && localPart.equals("record")) {
                     bookList.add(rawBook);
                 }
@@ -102,11 +102,7 @@ public class FromEventToBook {
         }
         log.info(String.valueOf(bookList.size()));
         //重複データが多く帰ってくるのでISBNと出版年月がかぶっているものを削除
-        var onlyOneBookList = bookList.stream().distinct().toList();
-        return onlyOneBookList;
+        var oneKindBookList = bookList.stream().distinct().toList();
+        return oneKindBookList;
     }
 }
-//{http://purl.org/dc/elements/1.1/}creator http://purl.org/dc/elements/1.1/ com.sun.org.apache.xerces.internal.util.NamespaceContextWrapper@2eab3090com.sun.xml.internal.stream.util.ReadOnlyIterator@2b7b4b2
-//        作者はThomas, David, 1956-
-//el.getNamespaceURI("dc")
-//el.getName().getPrefix　これで接頭辞がとれる

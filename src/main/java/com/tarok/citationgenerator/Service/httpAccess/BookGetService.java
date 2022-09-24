@@ -78,7 +78,7 @@ public class BookGetService {
             }
             //TODO 要検討
         } catch (IOException e) {
-            log.warn("InputStreamの生成に失敗", e);
+            log.warn("InputStreamで問題が発生", e);
             throw e;
         }
     }

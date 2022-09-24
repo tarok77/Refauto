@@ -117,6 +117,3 @@ public class QuoteController {
         return "/citedbook";
     }
 }
-//9784274226298
-//9784048930598
-//9784121600820
