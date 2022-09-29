@@ -19,4 +19,8 @@ public class Title {
     public String getWithBrackets() {
         return "『" + this.title + "』";
     }
+
+    public String get() {
+        return title;
+    }
 }

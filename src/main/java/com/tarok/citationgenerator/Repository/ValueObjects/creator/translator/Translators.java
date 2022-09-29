@@ -1,9 +1,13 @@
 package com.tarok.citationgenerator.Repository.ValueObjects.creator.translator;
 
-import java.util.List;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+@NoArgsConstructor
+@Setter
 public class Translators {
-    List<Translator> translators;
+    List<Translator> translators ;
 
     public Translators(String translator) {
         this.translators = List.of(Translator.nameOf(translator));
@@ -15,8 +19,8 @@ public class Translators {
 
 
     public boolean isEmpty() {
-        if (translators.isEmpty()) return false;
-        return true;
+        if (translators.isEmpty()) return true;
+        return false;
     }
 
     public String getTranslatorsNames() {
@@ -29,10 +33,17 @@ public class Translators {
                 result = translator.getTranslatorName();
                 continue;
             }
+            //TODO builderに変えるかどうか要検討
             result += "、" + translator.getTranslatorName();
         }
-        //訳者がいるときだけ読点で区切られるためにここでつけておく
-        result += "訳、";
-        return result;
+        result += "訳";
+        //監訳の場合のスペースを排除
+        return result.replaceAll(" 監|　監", "監");
+    }
+
+    public String getTranslatorsNamesWithComma() {
+        String names = getTranslatorsNames();
+        if(names.isEmpty()) return "";
+        return names + "、";
     }
 }

@@ -33,9 +33,13 @@ public class Author {
      */
     public String getReversed() {
         List<String> tmp = List.of(author.trim().split(" |　|・"));
+        //漢字圏もしくは姓か名しかない場合の早期リターン
+        if(tmp.size()==1) return tmp.get(0);
+
         String reversed = tmp.get(tmp.size()-1) + ", ";
         //TODO　アルファベット大文字一文字なら.をつけるようにする
         for(int i = 0; i < tmp.size()-1; i++) {
+            //長くて四要素、ほとんどは二要素であるため見やすさのためビルダーは使わない
             reversed += tmp.get(i);
             //イニシャルである場合"."をつけて"・"はつけない。詰まった感じになるのでスペースを入れておく。
             if(tmp.get(i).length()==1){

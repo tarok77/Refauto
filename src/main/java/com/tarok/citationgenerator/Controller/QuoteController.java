@@ -6,9 +6,6 @@ import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
 import com.tarok.citationgenerator.Service.httpAccess.BookGetService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.tool.schema.extract.spi.TableInformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -59,23 +57,23 @@ public class QuoteController {
 
         log.info(isbn);
         List<RawBook> rawBookList = bookGetService.getRawBookListByIsbn(isbn);
-        if (rawBookList.isEmpty()) return "/noresult";
+        if (rawBookList.isEmpty()) return "noresult";
         //戻ってきた本が一種類に特定された場合ユーザーに選んでもらう画面遷移をとばす
         if (rawBookList.size() == 1) {
             Book book = Book.format(rawBookList.get(0));
             model.addAttribute("bookinfo", book.convertAPAReference());
-            return "/citedbook";
+            return "citedbook";
         }
         //複数返ってきたときはユーザーに選んでもらうためリストにしてビューに送る
         List<BookForView> bookList = rawBookList.stream().map(BookForView::ConvertToView).toList();
         model.addAttribute("list", bookList);
 
-        return "/books";
+        return "books";
     }
 
     @PostMapping("/submit/title")
     public String submitTitle(@Validated @ModelAttribute TitleAndAuthor titleAndAuthor, BindingResult result, Model model) throws IOException, XMLStreamException {
-        //TODO　メッセージをつける
+
         if(result.hasErrors()) return "home";
 
         String title = titleAndAuthor.getTitle();
@@ -92,19 +90,19 @@ public class QuoteController {
             rawBookList = bookGetService.getRawBookListByTitleAndAuthor(title, author);
         }
         //リストが空であるときの対応
-        if (rawBookList.isEmpty()) return "/noresult";
+        if (rawBookList.isEmpty()) return "noresult";
         //戻ってきた本が一種類に特定された場合ユーザーに選んでもらう画面遷移をとばす
         if (rawBookList.size() == 1) {
             Book book = Book.format(rawBookList.get(0));
             model.addAttribute("bookinfo", book.convertAPAReference());
-            return "/citedbook";
+            return "citedbook";
         }
 
         List<BookForView> bookList = rawBookList.stream().map(BookForView::ConvertToView).toList();
 
         model.addAttribute("list", bookList);
 
-        return "/books";
+        return "books";
     }
 
     @PostMapping("/confirmed")
@@ -112,8 +110,13 @@ public class QuoteController {
         var book = Book.of(form.getTitle(), form.getCreators(),form.getPublishedYear(),
                 form.getPublisher(), form.getIsbn());
 
-        var bookInfo = book.convertAPAReference();
-        model.addAttribute("bookinfo", bookInfo);
-        return "/citedbook";
+        var bookMap = new HashMap<>();
+        var APABookInfo = book.convertAPAReference();
+        var standardBookInfo = book.convertStandardReference();
+        var ChicagoBookInfo = book.convertSIST02Reference();
+        bookMap.put("APA",APABookInfo); bookMap.put("standard",standardBookInfo); bookMap.put("SIST02", ChicagoBookInfo);
+
+        model.addAttribute("bookMap", bookMap);
+        return "citedbook";
     }
 }

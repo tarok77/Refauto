@@ -15,7 +15,7 @@ import java.util.Optional;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RawBook {
     private String title;
-    @EqualsAndHashCode.Include//翻訳者の情報の詳細さが違うことがありユーザーに選んでもらうためデータとして必要
+    @EqualsAndHashCode.Include//翻訳者の情報の詳細さが違うことがありユーザーに選んでもらうためデータとして別物として扱うため
     private List<String> creatorList = new ArrayList<>();
     @EqualsAndHashCode.Include
     private String publishedYearAndMonth;

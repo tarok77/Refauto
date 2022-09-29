@@ -16,7 +16,7 @@ class AuthorsTest {
         //Exercise
         String actual = sut.getAuthorsNames();
         //Assert
-        assertThat(actual).isEqualTo("Mike, Ichiro");
+        assertThat(actual).isEqualTo("Mike・Ichiro");
 
     }
 
@@ -28,5 +28,15 @@ class AuthorsTest {
         String actual = sut.getAuthorsNames();
         //Assert
         assertThat(actual).isEqualTo("NO_DATA");
+    }
+
+    @Test
+    void reverseFirstName呼び出しでfirstnameが先頭に来る() {
+        //Arrange
+        var sut = new Authors(List.of("マイク　トラウト", "イチロー　スズキ"));
+        //Act
+        var result = sut.reverseFirstName();
+        //Assert
+        assertThat(result.getOrRepresent()).isEqualTo("トラウト, マイク・スズキ, イチロー");
     }
 }

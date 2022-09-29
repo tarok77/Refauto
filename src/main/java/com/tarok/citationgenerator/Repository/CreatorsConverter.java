@@ -7,13 +7,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * xmlから抽出したRAWBOOKの形式をBOOKに適合するように直す。とくにcreatorフィールドとauthors,translatorsを適合させることを使命とする
- * 便宜上authorとtranslatorを合わせたものをcreatorとよんでいる
+ * rawBookインスタンスのCreatorフィールドはapiから戻ってくるcreatorタグのtextContentそのものだが、構造が一貫しないため
+ * 解析が必要。たとえばある本では著者と訳者が同じタグに書かれるが、別のデータではそれらが分けられている。
+ * 解析後の値をCreatorPairにのせてBookに届けることを目的とする
  */
 @Slf4j
 public class CreatorsConverter {
     /**
      * rawBookのCreatorフィールドをBookに渡すためのCreatorPairに変換する
+     * rawBookインスタンスのCreatorフィールドはapiから戻ってくるcreatorタグのtextContentそのもの
      *
      * @param raw 変換するCreatorフィールドを持つRawBookインスタンス
      * @return 分類が終わったCreatorPair
@@ -73,7 +75,9 @@ public class CreatorsConverter {
                 index++;
                 break;
             }
-            creatorPair.addAuthor(author.trim());
+//            スペースで判定して姓名を分けている場合があるのですべてのスペースを消すわけにはいかない。
+            String trimmedAuthor = author.replaceAll(" 編|　編", "編").trim();
+            creatorPair.addAuthor(trimmedAuthor);
         }
         for (; index < creators.size(); index++) {
             String translator = creators.get(index);

@@ -14,9 +14,9 @@
 <div class="container">
     <div class="row vh-100 align-content-center">
         <div class="col">
-            <h1 th:text="${bookinfo}" th:id="APA">bookApa</h1>
-            <h1 th:text="MLAtext" th:id="MLA">bookMla</h1>
-            <h1 th:text="Chicagotext" th:id="Chicago">bookChicago</h1>
+            <h1 th:text="${bookMap.APA}" th:id="APA">bookApa</h1>
+            <h1 th:text="${bookMap.standard}" th:id="standard">bookStandard</h1>
+            <h1 th:text="${bookMap.SIST02}" th:id="SIST02">bookSIST02</h1>
             <div class="py-1">
                 <div class="d-grid gap-5">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -24,13 +24,13 @@
                                id="btnradio1" autocomplete="off" checked>
                         <label class="btn btn-outline-primary" for="btnradio1">APA</label>
 
-                        <input type="radio" th:onclick="changeDisplay('MLA')" class="btn-check" name="btnradio"
+                        <input type="radio" th:onclick="changeDisplay('standard')" class="btn-check" name="btnradio"
                                id="btnradio2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio2">MLA</label>
+                        <label class="btn btn-outline-primary" for="btnradio2">Standard</label>
 
-                        <input type="radio" th:onclick="changeDisplay('Chicago')" class="btn-check" name="btnradio"
+                        <input type="radio" th:onclick="changeDisplay('SIST02')" class="btn-check" name="btnradio"
                                id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio3">Chicago</label>
+                        <label class="btn btn-outline-primary" for="btnradio3">SIST02</label>
                     </div>
                 </div>
             </div>

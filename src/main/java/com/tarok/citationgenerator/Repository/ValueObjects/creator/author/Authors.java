@@ -28,10 +28,17 @@ public class Authors {
     public String getAuthorsNames() {
         //リストが空であるときはデータがないことを伝える
         if(authors.isEmpty()) return "NO_DATA";
+//        String AuthorsNames = this.authors.stream().map(Author::getName)
+//                .reduce(" ", (a, b) -> a + ", " + b).replaceFirst(",", "").trim();
+//        return AuthorsNames;
+        String names = "";
+        //TODO builderにするか要検討
+        for(var author: authors) {
+            if(!names.isEmpty()) names += "・";
+            names += author.getName();
+        }
 
-        String AuthorsNames = this.authors.stream().map(Author::getName)
-                .reduce(" ", (a, b) -> a + ", " + b).replaceFirst(",", "").trim();
-        return AuthorsNames;
+        return names;
     }
 
     //作者が三人以上であるとき最初の作者に「...他」をつけて代表させる方式で使う。
@@ -49,10 +56,8 @@ public class Authors {
         return authors.get(0).getName();
     }
 
-
-
-    public int size() {
-        return authors.size();
+    public Authors reverseFirstName() {
+        List<String> reversed = this.authors.stream().map(Author::getReversed).toList();
+        return new Authors(reversed);
     }
-
 }

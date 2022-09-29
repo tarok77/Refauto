@@ -1,18 +1,18 @@
 document.getElementById("APA").style.display="block";
-document.getElementById("MLA").style.display="none";
-document.getElementById("Chicago").style.display="none";
+document.getElementById("standard").style.display="none";
+document.getElementById("SIST02").style.display="none";
 
 let changeDisplay =
     function(id) {
         let APA = document.getElementById("APA");
-        let MLA = document.getElementById("MLA");
-        let chicago = document.getElementById("Chicago");
+        let standard = document.getElementById("standard");
+        let SIST02 = document.getElementById("SIST02");
 
         let target = document.getElementById(id);
 
         APA.style.display="none";
-        MLA.style.display="none";
-        chicago.style.display="none";
+        standard.style.display="none";
+        SIST02.style.display="none";
 
         target.style.display="block";
     }
@@ -21,18 +21,18 @@ let changeDisplay =
 let copyText =
     function() {
         let APA = document.getElementById("APA");
-        let MLA = document.getElementById("MLA");
-        let chicago = document.getElementById("Chicago");
+        let MLA = document.getElementById("standard");
+        let chicago = document.getElementById("SIST02");
 
         if(APA.style.display==="block") {
             copy(APA.textContent);
             return;
         }
-        if(MLA.style.display==="block") {
-            copy(MLA.textContent);
+        if(standard.style.display==="block") {
+            copy(standard.textContent);
             return;
         }
-        copy(Chicago.textContent);
+        copy(SIST02.textContent);
     }
 
 let copy =
