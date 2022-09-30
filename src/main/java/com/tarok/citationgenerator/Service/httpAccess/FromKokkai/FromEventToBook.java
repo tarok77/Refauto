@@ -1,4 +1,4 @@
-package com.tarok.citationgenerator.Service.httpAccess;
+package com.tarok.citationgenerator.Service.httpAccess.FromKokkai;
 
 import com.tarok.citationgenerator.Repository.RawBook;
 import lombok.extern.slf4j.Slf4j;

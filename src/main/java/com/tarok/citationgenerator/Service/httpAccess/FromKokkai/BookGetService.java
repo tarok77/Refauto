@@ -1,6 +1,9 @@
-package com.tarok.citationgenerator.Service.httpAccess;
+package com.tarok.citationgenerator.Service.httpAccess.FromKokkai;
 
 import com.tarok.citationgenerator.Repository.RawBook;
+import com.tarok.citationgenerator.Service.MakeURL.BookOrArticle;
+import com.tarok.citationgenerator.Service.MakeURL.MakeURLStrategy;
+import com.tarok.citationgenerator.Service.MakeURL.URLMaker;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,8 +24,8 @@ public class BookGetService {
     private final FromEventToBook fromEventToBook;
     private final OkHttpClient client = new OkHttpClient();
 
-    public BookGetService(URLMaker maker, FromEventToBook fromEventToBook) {
-        this.URLmaker = maker;
+    public BookGetService(URLMaker urlMaker, FromEventToBook fromEventToBook) {
+        this.URLmaker = urlMaker;
         this.fromEventToBook = fromEventToBook;
     }
 

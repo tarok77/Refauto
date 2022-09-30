@@ -1,6 +1,5 @@
-package com.tarok.citationgenerator.Service.httpAccess;
+package com.tarok.citationgenerator.Service.MakeURL;
 
-import com.tarok.citationgenerator.Service.JudgeDataType.InputtedDataType;
 import com.tarok.citationgenerator.Service.JudgeDataType.JudgeISBN;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,18 @@ import java.nio.charset.StandardCharsets;
  */
 @Component
 public class URLMaker {
+    private final MakeURLStrategy strategy;
 
+    public URLMaker(MakeURLStrategy strategy) {
+        this.strategy = strategy;
+    }
+    public String makeURL(WithWhat dataType, String searchInfo) {
+        return strategy.makeURL(dataType, searchInfo);
+    }
+
+    public String makeURL(WithWhat dataType, String title, String Author) {
+        return strategy.makeURL(dataType, title, Author);
+    }
     public String createURLByTitleAndAuthor(String title, String author) {
         String preEncodedQuery = "title=\"" + title +"\" AND creator=\"" + author + "\"";
         String query = URLEncoder.encode(preEncodedQuery, StandardCharsets.UTF_8);
@@ -24,7 +34,6 @@ public class URLMaker {
     }
 
     public String createURLByISBN(String inputtedIsbn) {
-        String query = inputtedIsbn;
         JudgeISBN judgeISBN = new JudgeISBN();
         String isbn = judgeISBN.normalizeByteType(inputtedIsbn);
 

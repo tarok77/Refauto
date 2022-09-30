@@ -4,7 +4,7 @@ import com.tarok.citationgenerator.Controller.Form.ISBNForm;
 import com.tarok.citationgenerator.Controller.Form.TitleAndAuthor;
 import com.tarok.citationgenerator.Repository.Book;
 import com.tarok.citationgenerator.Repository.RawBook;
-import com.tarok.citationgenerator.Service.httpAccess.BookGetService;
+import com.tarok.citationgenerator.Service.httpAccess.FromKokkai.BookGetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
