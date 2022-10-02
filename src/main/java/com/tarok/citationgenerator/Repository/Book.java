@@ -1,5 +1,6 @@
 package com.tarok.citationgenerator.Repository;
 
+import com.tarok.citationgenerator.Controller.BookForView;
 import com.tarok.citationgenerator.Repository.ValueObjects.*;
 import com.tarok.citationgenerator.Repository.ValueObjects.creator.author.Authors;
 import com.tarok.citationgenerator.Repository.ValueObjects.creator.translator.Translators;
@@ -27,12 +28,12 @@ public class Book {
 
     /**
      * スタティックファクトリメソッド
-     * @param title　
-     * @param creators
-     * @param publishedYear
-     * @param publisher
-     * @param isbn
-     * @return
+     * @param title　本のタイトル
+     * @param creators　作者と翻訳者
+     * @param publishedYear　出版年
+     * @param publisher　出版社
+     * @param isbn　ISBN
+     * @return 生成されたBookインスタンス
      */
     public static Book of(String title, String creators, String publishedYear, String publisher, String isbn) {
         var book = new Book();
@@ -79,6 +80,16 @@ public class Book {
             book.setTranslated(true);
         }
         return book;
+    }
+
+    /**
+     * View用に変換されたオブジェクトであるBookForViewをBookオブジェクトに変換するスタティックファクトリメソッド
+     * @param bookForView　XMLから変換されviewに提示されるために加工された本の情報
+     * @return 新しく生成されたブックオブジェクト
+     */
+    public static Book fromBookForView(BookForView bookForView) {
+        return Book.of(bookForView.getTitle(), bookForView.getCreators(), bookForView.getPublishedYear(),
+                bookForView.getPublisher(), bookForView.getIsbn());
     }
     public String getFullAuthorsNames() {
         if(!this.isTranslated) return authors.getAuthorsNames();
@@ -129,7 +140,7 @@ public class Book {
                     + ", " + publishedYear.getYear() + ".";
         }
         return getOrRepresentAuthorsNames() + ". " + title.get() + ". " +
-                translators.getTranslatorsNames().replaceAll("、", ", ") + ".　"
+                translators.getTranslatorsNames().replaceAll("、", ", ") + ". "
                 + publisher.getName() + ", " + publishedYear.getYear() + ".";
     }
 }

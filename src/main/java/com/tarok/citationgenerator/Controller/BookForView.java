@@ -30,7 +30,7 @@ public class BookForView {
         this.creators = book.getCreatorList().stream().reduce(" ",(a, b) -> a + "," + b).replaceFirst(",","").trim();
     }
 
-    public static BookForView ConvertToView(RawBook book) {
+    public static BookForView ConvertForView(RawBook book) {
         return new BookForView(book);
     }
 

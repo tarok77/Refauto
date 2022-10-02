@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+          th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <title>Articles</title>
+</head>
+<body>
+<div class="container">
+    <div class="card-group">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-1">
+                <div th:each="article, s:${articles}" th:object="${article}">
+                    <div class="card">
+                        <div class="card-body">
+                            <ol th:id="|card${s.count}|">
+                                <li th:text="*{title}">title</li>
+                                <li th:text="*{creators}">creators</li>
+                                <li th:text="*{publicationDate}">publishedYear</li>
+                                <li th:text="*{publisher}">publisher</li>
+                                <li th:text="*{publicationName}">isbn</li>
+                                <li th:text="*{pages}">isbn</li>
+                                <li th:text="*{volume}">isbn</li>
+                            </ol>
+                            <div class="card-footer bg-transparent">
+                                <p class="text-center text-muted" th:text="|${s.count}/${s.size}|">
+                                    x/y
+                                </p>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary " type="submit"
+                                        th:onclick="|insertHidden('card${s.count}')|">この本に確定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form name="formHidden" action="/confirmed" th:action="@{/confirmedArticle}" method="post" id="hiddenField"
+          th:object="${articleForm}">
+        <input type="hidden" th:field="*{title}" value="">
+        <input type="hidden" th:field="*{creators}" value="">
+        <input type="hidden" th:field="*{publicationDate}" value="">
+        <input type="hidden" th:field="*{publisher}" value="">
+        <input type="hidden" th:field="*{publicationName}" value="">
+        <input type="hidden" th:field="*{pages}" value="">
+        <input type="hidden" th:field="*{volume}" value="">
+    </form>
+</div>
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{../js/articles.js}" defer></script>
+</body>
+
+</html>

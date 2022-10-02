@@ -33,7 +33,8 @@ public class SecurityConfig {
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                             .antMatchers("/h2-console/**").permitAll()
                             .mvcMatchers("/","/login","/submit/isbn",
-                                    "/submit/title","/confirmed").permitAll()
+                                    "/submit/title","/confirmed","/article",
+                                    "/article/submit","/confirmedArticle").permitAll()
                             .mvcMatchers().hasRole("USER")
                             .anyRequest().authenticated()
                     ).headers().frameOptions().disable().and().cors().and().csrf().disable()//本番環境では取る。

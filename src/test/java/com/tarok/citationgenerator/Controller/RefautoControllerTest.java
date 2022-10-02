@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = CitationGeneratorApplication.class)
-class QuoteControllerTest {
+class RefautoControllerTest {
     @Autowired
     private MockMvc mock;
 
@@ -39,7 +39,7 @@ class QuoteControllerTest {
 
     //@TODO メソッドを変えてしまいのでいったんたいき
 //    @Test
-//    void show() throws Exception {
+//    void showBookResult() throws Exception {
 //    }
 
 }
