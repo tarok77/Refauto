@@ -33,17 +33,6 @@ public class RawBook {
         this.isbn = rawBook.getIsbn();
     }
 
-
-    public boolean isNoData() {
-        if (!(title == null)) return false;
-        if (!(creatorList == null)) return false;
-        if (!(publishedYearAndMonth == null)) return false;
-        if (!(publisher == null)) return false;
-        if (!(isbn == null)) return false;
-
-        return true;
-    }
-
     //情報の獲得に失敗した場合にNPEを避けるためのOptionalを返すゲッター群
     public Optional<String> getOptionalTitle() {
         return Optional.ofNullable(title);

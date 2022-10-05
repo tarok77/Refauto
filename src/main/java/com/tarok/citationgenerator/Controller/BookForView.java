@@ -4,6 +4,8 @@ import com.tarok.citationgenerator.Repository.RawBook;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 /**
  * modelにのせviewにRawBookを送るためのクラス
  */
@@ -27,11 +29,10 @@ public class BookForView {
         this.isbn = book.getIsbn();
 
         //TODO　もっとましな書き方ありそう
-        this.creators = book.getCreatorList().stream().reduce(" ",(a, b) -> a + "," + b).replaceFirst(",","").trim();
+        this.creators = book.getCreatorList().stream().reduce(" ", (a, b) -> a + "," + b).replaceFirst(",", "").trim();
     }
 
     public static BookForView ConvertForView(RawBook book) {
         return new BookForView(book);
     }
-
 }

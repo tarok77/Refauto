@@ -16,9 +16,11 @@ public class Title {
         return new Title(name);
     }
 
-    public String getWithBrackets() {
-        return "『" + this.title + "』";
+    public String getWithDoubleBrackets() {
+        return "『" + title + "』";
     }
+
+    public String getWithBrackets() {return "「" + title + "」";}
 
     public String get() {
         return title;

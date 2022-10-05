@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -23,13 +24,19 @@ public class Items {
     @JsonProperty("prism:publicationName")
     public String publicationName;
     @JsonProperty("prism:volume")
-    public int volume;
+    public String volume;
+    @JsonProperty("prism:number")
+    public String number;
     @JsonProperty("prism:startingPage")
     public String startingPage;
     @JsonProperty("prism:endingPage")
     public String endingPage;
     @JsonProperty("prism:publicationDate")
     public String publicationDate;
+
+    public Optional<List<String>> getCreator() {
+        return Optional.ofNullable(creator);
+    }
 
 
 }

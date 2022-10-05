@@ -42,6 +42,7 @@ public class ArticleGetService {
     public List<ArticleForView> getArticles(With with, String searchInfo) throws IOException {
         maker.changeStrategy(ARTICLE);
         String URL = maker.makeURL(with, searchInfo);
+        log.info(URL);
 
         String json = executeRequest(URL);
 
@@ -53,9 +54,9 @@ public class ArticleGetService {
      * 検索条件を受け取り論文のオブジェクトを返す、このクラスの責務を果たすためのメソッド
      * クラス内の他のメソッドを使用する。
      *
-     * @param with   検索条件の性質　タイトルと作者のみだがオーバーロードするメソッドとの一貫性で入れている
-     * @param title  フォームへの入力値
-     * @param author フォームへの入力値
+     * @param with   検索条件の性質　実際にはタイトルと作者のみのTITLE_AND_AUTHORしか使わないがオーバーロードするメソッドとの一貫性で入れている
+     * @param title  フォームへの入力値　検索条件のタイトル
+     * @param author フォームへの入力値　検索条件の作者名
      * @return jsonを解析しオブジェクトに変更したもののリスト
      * @throws IOException 　httpアクセスもしくはjsonの変換に失敗したとき　Viewで処理するために投げ直す。
      */

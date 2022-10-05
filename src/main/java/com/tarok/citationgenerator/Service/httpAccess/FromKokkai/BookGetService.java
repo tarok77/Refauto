@@ -45,21 +45,6 @@ public class BookGetService {
         return executeRequest(url).stream().map(BookForView::ConvertForView).toList();
     }
 
-//    public List<RawBook> getRawBookListByAuthor(String author) throws XMLStreamException, IOException {
-//        String url = URLmaker.CreateURLByAuthor(author);
-//        return executeRequest(url);
-//    }
-//
-//    public List<RawBook> getRawBookListByIsbn(String isbn) throws XMLStreamException, IOException {
-//        String url = URLmaker.createURLByISBN(isbn);
-//        return executeRequest(url);
-//    }
-//
-//    public List<RawBook> getRawBookListByTitleAndAuthor(String title, String author) throws XMLStreamException, IOException {
-//        String url = URLmaker.createURLByTitleAndAuthor(title, author);
-//        return executeRequest(url);
-//    }
-
     //共通の実行処理 okhttpによるアクセスとXML処理FromEventToBookの呼び出し
     public List<RawBook> executeRequest(String url) throws IOException, XMLStreamException {
         //TODO 開発中のデータ比較用　本番環境ではとる

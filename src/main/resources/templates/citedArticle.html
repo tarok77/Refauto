@@ -7,7 +7,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
           th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css}" rel="stylesheet">
-    <title>CitedBook</title>
+    <title>CitedArticle</title>
 </head>
 
 <body>
@@ -15,9 +15,9 @@
 <div class="container">
     <div class="row vh-100 align-content-center">
         <div class="col">
-            <h1 th:text="${bookMap.APA}" th:id="APA">bookApa</h1>
-            <h1 th:text="${bookMap.standard}" th:id="standard">bookStandard</h1>
-            <h1 th:text="${bookMap.SIST02}" th:id="SIST02">bookSIST02</h1>
+            <h1 th:text="${articleMap.APA}" th:id="APA">articleApa</h1>
+            <h1 th:text="${articleMap.standard}" th:id="standard">articleStandard</h1>
+            <h1 th:text="${articleMap.SIST02}" th:id="SIST02">articleSIST02</h1>
             <div class="py-1">
                 <div class="d-grid gap-5">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -37,7 +37,7 @@
             </div>
             <div class="d-grid gap-2">
                 <div class="btn-group" role="group">
-                    <a class="btn btn-outline-secondary" href="/" role="button">検索画面に戻る</a>
+                    <a class="btn btn-outline-secondary" href="/article" role="button">検索画面に戻る</a>
                     <button class="btn btn-outline-secondary" role="button" onclick="copyText()">コピー</button>
                 </div>
                 <div>

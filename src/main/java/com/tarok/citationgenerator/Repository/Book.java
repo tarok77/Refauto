@@ -9,6 +9,8 @@ import com.tarok.citationgenerator.Repository.ValueObjects.publishedyear.Publish
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Data
 @Component
 public class Book {
@@ -72,8 +74,8 @@ public class Book {
         book.setCreators(creatorsConverter.convertRawBook(raw));
         book.setPublisher(new Publisher(raw.getOptionalPublisher().orElse("NO_DATA")));
         //以下二つ取得失敗時は空文字でnullオブジェクトを生成　想定外の値はユーザに確認を求めるためStringのまま転送
-        book.setPublishedYear(PublishedYear.of(raw.getOptionalPublishedYear().orElse("")));
-        book.setIsbn(Isbn.numberOf(raw.getOptionalIsbn().orElse("").replaceAll("-", "")));
+        book.setPublishedYear(PublishedYear.of(raw.getOptionalPublishedYear().orElse("NO_DATA")));
+        book.setIsbn(Isbn.numberOf(raw.getOptionalIsbn().orElse("NO_DATA").replaceAll("-", "")));
 
         //翻訳書であるかどうかの判定のためtranslatorsが空か調べる
         if(!book.getTranslators().isEmpty()) {
@@ -88,8 +90,17 @@ public class Book {
      * @return 新しく生成されたブックオブジェクト
      */
     public static Book fromBookForView(BookForView bookForView) {
-        return Book.of(bookForView.getTitle(), bookForView.getCreators(), bookForView.getPublishedYear(),
-                bookForView.getPublisher(), bookForView.getIsbn());
+        var book = new Book();
+        var converter = new CreatorsConverter();
+
+        book.setTitle(Title.nameOf(Objects.requireNonNullElse(bookForView.getTitle(),("NO_DATA"))));
+        //空文字を与えれば空のリストを持つペアが生成され問題は起きない。
+        book.setCreators(converter.convertFromString(Objects.requireNonNullElse(bookForView.getCreators(), (""))));
+        //存在しない場合はnullオブジェクトの生成のため空文字を与える
+        book.setPublishedYear(PublishedYear.of(Objects.requireNonNullElse(bookForView.getPublishedYear(), ("NO_DATA"))));
+        book.setPublisher(Publisher.nameOf(Objects.requireNonNullElse(bookForView.getPublisher(),("NO_DATA"))));
+        book.setIsbn(Isbn.numberOf(Objects.requireNonNullElse(bookForView.getIsbn(), ("NO_DATA"))));
+        return book;
     }
     public String getFullAuthorsNames() {
         if(!this.isTranslated) return authors.getAuthorsNames();
@@ -121,26 +132,26 @@ public class Book {
     }
 
     public String convertAPAReference() {
-        return getOrRepresentAuthorsNames() + "(" + publishedYear.getYear() + ")" +
-                title.getWithBrackets() + translators.getTranslatorsNamesWithComma() + publisher.getName();
+        return getOrRepresentAuthorsNames() + "(" + publishedYear.get() + ")" +
+                title.getWithDoubleBrackets() + translators.getTranslatorsNamesWithComma() + publisher.getName();
     }
 
     public String convertStandardReference() {
         if (!this.isTranslated) {
-            return getOrRepresentAuthorsNames() + " " + title.getWithBrackets() +  " "
-                    + publisher.getName() + "、 " + publishedYear.getYear() + "年。";
+            return getOrRepresentAuthorsNames() + " " + title.getWithDoubleBrackets() +  " "
+                    + publisher.getName() + "、 " + publishedYear.get() + "年。";
         }
-        return getOrRepresentAuthorsNames() + " " + title.getWithBrackets() +  " " + translators.getTranslatorsNames() + " 。 "
-                + publisher.getName() + "、 " + publishedYear.getYear() + "年。";
+        return getOrRepresentAuthorsNames() + " " + title.getWithDoubleBrackets() +  " " + translators.getTranslatorsNames() + "、 "
+                + publisher.getName() + "、 " + publishedYear.get() + "年。";
     }
 
     public String convertSIST02Reference() {
         if(!this.isTranslated) {
             return getOrRepresentAuthorsNames() + ". " + title.get() + ". " + publisher.getName()
-                    + ", " + publishedYear.getYear() + ".";
+                    + ", " + publishedYear.get() + ".";
         }
         return getOrRepresentAuthorsNames() + ". " + title.get() + ". " +
                 translators.getTranslatorsNames().replaceAll("、", ", ") + ". "
-                + publisher.getName() + ", " + publishedYear.getYear() + ".";
+                + publisher.getName() + ", " + publishedYear.get() + ".";
     }
 }

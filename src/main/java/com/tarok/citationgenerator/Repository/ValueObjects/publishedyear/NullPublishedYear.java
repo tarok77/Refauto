@@ -7,7 +7,7 @@ public class NullPublishedYear implements PublishedYear{
     private final String noData = "NO_DATA";
 
     @Override
-    public String getYear() {
+    public String get() {
         return "NO_DATA";
     }
 }

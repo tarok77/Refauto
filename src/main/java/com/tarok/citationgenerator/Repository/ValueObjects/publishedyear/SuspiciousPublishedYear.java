@@ -3,7 +3,7 @@ package com.tarok.citationgenerator.Repository.ValueObjects.publishedyear;
 import lombok.ToString;
 
 /**
- * XMLから取得した値がvalueオブジェクトに変換できなかったとき、もとの情報をユーザに提示するために保持するクラス
+ * XMLまたはjsonから取得した値がvalueオブジェクトに変換できなかったとき、もとの情報をユーザに提示するために保持するクラス
  * Bookクラスに保持されうるようIsbnの実装クラスとする
  */
 @ToString
@@ -15,7 +15,7 @@ public class SuspiciousPublishedYear implements PublishedYear {
     }
 
     @Override
-    public String getYear() {
+    public String get() {
         return information + "### データの形式が想定外です、修正してお使いください。###";
     }
 }

@@ -22,7 +22,7 @@ class PublishedYearImplTest {
     @Test
     public void 年月のgetが期待された値を返す() {
         var sut = new PublishedYearImpl("2010.12");
-        assertThat(sut.getYear()).isEqualTo("2010");
+        assertThat(sut.get()).isEqualTo("2010");
         assertThat(sut.getMonth()).isEqualTo("12");
 
     }
