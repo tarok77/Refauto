@@ -17,7 +17,14 @@ class AuthorTest {
     @Test
     void 中黒で区切られた名前が与えられたときgetReversedメソッドが名前を反転させる() {
         var sut = Author.nameOf("エルンスト・H・ゴンブリッチ");
-        assertThat(sut.getReversed()).isEqualTo("ゴンブリッチ, エルンスト・H.");
+        assertThat(sut.getReversed()).isEqualTo("ゴンブリッチ, エルンスト H.");
+    }
+
+    @Test//
+    void ミドルネームがある場合のgetReversedメソッドの動作() {
+        var sut = Author.nameOf("アンジェラ E.マクホルム");
+        var actual =sut.getReversed();
+        assertThat(actual).isEqualTo("マクホルム, アンジェラ E.");
     }
 
     @Test

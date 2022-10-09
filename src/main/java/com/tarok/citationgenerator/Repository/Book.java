@@ -64,7 +64,6 @@ public class Book {
      * @param raw 未加工の書籍データ
      * @return 加工後の書籍データ
      */
-    //TODO ヴァリューオブジェクト生成失敗時停止ではなくスキップして作業を進めさせる
     public static Book format(RawBook raw) {
         var book = new Book();
         book.setTranslated(false);
@@ -100,6 +99,8 @@ public class Book {
         book.setPublishedYear(PublishedYear.of(Objects.requireNonNullElse(bookForView.getPublishedYear(), ("NO_DATA"))));
         book.setPublisher(Publisher.nameOf(Objects.requireNonNullElse(bookForView.getPublisher(),("NO_DATA"))));
         book.setIsbn(Isbn.numberOf(Objects.requireNonNullElse(bookForView.getIsbn(), ("NO_DATA"))));
+
+        if(!book.translators.isEmpty()) {book.setTranslated(true);}
         return book;
     }
     public String getFullAuthorsNames() {

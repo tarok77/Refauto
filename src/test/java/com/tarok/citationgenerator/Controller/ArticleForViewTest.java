@@ -52,4 +52,15 @@ class ArticleForViewTest {
         //Act
         var instance = ArticleForView.of(target);
     }
+
+    @Test
+    void EndingPageがnullのときArticleFOrViewのページ数がハイフンを含まないStartingPageだけになる() {
+        //Arrange
+        target.setEndingPage(null);
+        //Act
+        var instance = ArticleForView.of(target);
+        var actual = instance.getPages();
+        //Assert
+        assertThat(actual).isEqualTo("1");
+    }
 }

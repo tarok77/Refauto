@@ -28,6 +28,7 @@ public class ArticleForView {
 
     /**
      * jsonの戻り値からview用の論文データを作るためのスタティックファクトリメソッド
+     *
      * @param response CiNiiapiからの戻り値の論文データ
      * @return viewに送るために最低限の整形をほどこした論文のデータ
      */
@@ -38,10 +39,14 @@ public class ArticleForView {
         article.setPublicationName(response.getPublicationName());
         article.setPublicationDate(response.getPublicationDate());
         article.setPublisher(response.getPublisher());
-        article.setPages(response.getStartingPage() + "-" + response.getEndingPage());
-
         List<String> creators = response.getCreator().orElse(new ArrayList<>());
         article.setCreators(creators.stream().reduce(" ", (a, b) -> a + "," + b).replaceFirst(",", "").trim());
+
+        if (response.getEndingPage() == null) {
+            article.setPages(response.getStartingPage());
+        } else {
+            article.setPages(response.getStartingPage() + "-" + response.getEndingPage());
+        }
 
         //volumeとnumに含まれるデータが多岐にわたるため処理が複雑になる 以降はその対策
         String volume;
@@ -58,7 +63,7 @@ public class ArticleForView {
             return article;
         }
         //本来volumeに入れるべき値をnumに入れられたときの対策
-        if(Objects.isNull(volume)) {
+        if (Objects.isNull(volume)) {
             article.setVolumeAndNum(num);
             return article;
         }

@@ -29,10 +29,12 @@ public class Author {
     /**
      * 外国人著者の場合名・姓で登録されているデータを姓・名に反転させてgetするためのメソッド。
      * 関連する"."や","の加筆をおこなう。
-     * @return 反転後のauthorフィールドの値
+     * @return 反転後の著者の名前　エルンスト・H・ゴンブリッチがゴンブリッチ, エルンスト H.
      */
     public String getReversed() {
-        List<String> tmp = List.of(author.trim().split(" |　|・"));
+        //もとデータでファーアウトネームとラストネームはスペースか中黒で区切られている。例外的にコンマかピリオド。
+        List<String> tmp = List.of(author.trim().split(" |　|・|,|\\."));
+
         //漢字圏もしくは姓か名しかない場合の早期リターン
         if(tmp.size()==1) return tmp.get(0);
 
@@ -46,7 +48,7 @@ public class Author {
                 reversed += ". ";
                 continue;
             }
-            if(i != tmp.size()-2) reversed += "・";
+            if(i != tmp.size()-2) reversed += " ";
         }
         //イニシャル対策で入れたスペースが最後に入っていたらトリム
         return reversed.trim();

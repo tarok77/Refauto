@@ -28,9 +28,7 @@ public class Authors {
     public String getAuthorsNames() {
         //リストが空であるときはデータがないことを伝える
         if(authors.isEmpty()) return "NO_DATA";
-//        String AuthorsNames = this.authors.stream().map(Author::getName)
-//                .reduce(" ", (a, b) -> a + ", " + b).replaceFirst(",", "").trim();
-//        return AuthorsNames;
+
         String names = "";
         //TODO builderにするか要検討
         for(var author: authors) {

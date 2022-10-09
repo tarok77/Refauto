@@ -37,9 +37,21 @@ class RefautoControllerTest {
                 andDo(print()).andExpect(status().isOk());
     }
 
-    //@TODO メソッドを変えてしまいのでいったんたいき
-//    @Test
-//    void showBookResult() throws Exception {
-//    }
+    @Test
+    void articleSubmitでタイトルだけを送るとき() throws Exception {
+        this.mock.perform((post("/article/submit")).param("title", "ヴァレリー").param("author", ""))
+                .andExpect(status().isOk());
+    }
 
+    @Test
+    void articleSubmitで著者だけを送る場合() throws Exception {
+        this.mock.perform((post("/article/submit")).param("title", "").param("author", "レオ・シュトラウス"))
+                .andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void articleSubmitでタイトルと著者名を送るとき() throws Exception {
+        this.mock.perform((post("/article/submit")).param("title", "時間").param("author", "中島"))
+                .andDo(print()).andExpect(status().isOk());
+    }
 }
