@@ -27,8 +27,10 @@ public class Article {
 
     private Publisher publisher;
 
-    //雑誌掲載論文と単行本収録の論文で提示する情報が違うため
+    //雑誌掲載論文と単行本収録の論文で提示する情報が違うため 単行本収録の論文がそもそも元データにないため不要かも
     private boolean isPartOfBook = false;
+
+    //TODO 翻訳論文の時著者名がタイトルの前に加わっているときとクリエーターに訳者と併記されている場合の二パターンがある　どうするか
 
     public static Article fromView(ArticleForView forView) {
         var article = new Article();
@@ -51,11 +53,6 @@ public class Article {
     public String getAuthorsReplacedComma() {
         return getAuthors().replaceAll(",", "・");
     }
-
-//    public String getVolumeAndNumInJapanese() {
-//        if(!volumeAndNum.contains("(")) return volumeAndNum + "巻";
-//        return volumeAndNum.replaceFirst("\\(|（","巻").replaceFirst("\\)|）","号");
-//    }
 
     public String convertAPAReference() {
         return getAuthorsReplacedComma() + " (" + publishedYear.get() + ") " +

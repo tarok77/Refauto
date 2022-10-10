@@ -3,8 +3,7 @@ package com.tarok.citationgenerator.Repository.ValueObjects;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
+@SuppressWarnings("NonAsciiCharacters")
 class VolumeAndNumTest {
 
     @Test
@@ -21,5 +20,24 @@ class VolumeAndNumTest {
 
         assertThat(instance.getVolume()).isEqualTo("3");
         assertThat(instance.getNum()).isEqualTo("55");
+    }
+
+    @Test
+    void getVolumeAndNumInJapanese() {
+        //Arrange
+        var instance = VolumeAndNum.of("3(55)");
+        //Act
+        String actual = instance.getVolumeAndNumInJapanese();
+        //Assert
+        assertThat(actual).isEqualTo("3巻55号");
+    }
+    @Test
+    void getメソッドで巻と号のフィールドが統一して表示される() {
+        //Arrange
+        var instance = VolumeAndNum.of("3(55)");
+        //Act
+        var actual = instance.get();
+        //Assert
+        assertThat(actual).isEqualTo("3(55)");
     }
 }

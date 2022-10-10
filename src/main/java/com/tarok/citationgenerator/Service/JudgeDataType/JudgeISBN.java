@@ -17,23 +17,22 @@ public class JudgeISBN {
         if (!(length == 10 || length == 13)) return InputtedDataType.NOT_ISBN;
 
         if (length == 10) {
-            var pattern = Pattern.compile("[０-９]{10}");
-            var matcher = pattern.matcher(inputData);
-            if(matcher.matches()) return InputtedDataType.TWO_BYTE_ISBN;
+            var patternTwoByte = Pattern.compile("[０-９]{10}");
+            var matcherTwoByte = patternTwoByte.matcher(inputData);
+            if(matcherTwoByte.matches()) return InputtedDataType.TWO_BYTE_ISBN;
 
-            //再代入のほうがましか？
-            var pattern2 = Pattern.compile("\\d{10}");
-            var matcher2 = pattern2.matcher(inputData);
-            if(matcher2.matches()) return InputtedDataType.ONE_BYTE_ISBN;
+            var patternOneByte = Pattern.compile("\\d{10}");
+            var matcherOneByte = patternOneByte.matcher(inputData);
+            if(matcherOneByte.matches()) return InputtedDataType.ONE_BYTE_ISBN;
         }
 
-        var pattern = Pattern.compile("[０-９]{13}");
-        Matcher matcher = pattern.matcher(inputData);
-        if(matcher.matches()) return InputtedDataType.TWO_BYTE_ISBN;
+        var patternTwoByte = Pattern.compile("[０-９]{13}");
+        Matcher matcherTwoByte = patternTwoByte.matcher(inputData);
+        if(matcherTwoByte.matches()) return InputtedDataType.TWO_BYTE_ISBN;
 
-        var pattern2 = Pattern.compile("\\d{13}");
-        var matcher2 = pattern2.matcher(inputData);
-        if(matcher2.matches()) return InputtedDataType.ONE_BYTE_ISBN;
+        var patternOneByte = Pattern.compile("\\d{13}");
+        var matcherOneByte = patternOneByte.matcher(inputData);
+        if(matcherOneByte.matches()) return InputtedDataType.ONE_BYTE_ISBN;
 
         return InputtedDataType.NOT_ISBN;
     }
@@ -54,8 +53,6 @@ public class JudgeISBN {
         }
         return builder.toString();
     }
-
-    //TODO assertionの追加とエラー生成を削除
 
     /**
      * フォームに入力されたISBNを判定し半角ISBNであることを保証する
@@ -79,8 +76,7 @@ public class JudgeISBN {
         }
 
         //全角であるときは半角に正規化。
-        String normalizedISBN = normalizeTwoByte(inputtedString);
-        return normalizedISBN;
+        return normalizeTwoByte(inputtedString);
     }
 
 }
