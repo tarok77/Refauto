@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@SuppressWarnings("NonAsciiCharacters")
 @AutoConfigureMockMvc
 @SpringBootTest(classes = CitationGeneratorApplication.class)
 class RefautoControllerTest {
@@ -21,36 +21,49 @@ class RefautoControllerTest {
     private MockMvc mock;
 
     @Test
-    void home() throws Exception {
+    void homeへのアクセス() throws Exception {
         this.mock.perform(get("/")).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
-    void submitIsbn() throws Exception {
+    void submitIsbnでisbnを送るとき() throws Exception {
         this.mock.perform(post("/submit/isbn").param("isbn", "1234567890")).
                 andDo(print()).andExpect(status().isOk());
     }
 
+
     @Test
-    void submitTitleAndAuthor() throws Exception {
+    void submitTitleAndAuthorでtitleのみ送る() throws Exception {
         this.mock.perform(post("/submit/title").param("title", "美術の物語").param("author", "")).
                 andDo(print()).andExpect(status().isOk());
     }
 
     @Test
-    void articleSubmitでタイトルだけを送るとき() throws Exception {
+    void submitTitleAndAuthorでauthorのみ送る() throws Exception {
+        this.mock.perform(post("/submit/title").param("title", "").param("author", "ゴンブリッジ")).
+                andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void submitTitleAndAuthorでtitleとauthorを送る() throws Exception {
+        this.mock.perform(post("/submit/title").param("title", "美術の物語").param("author", "ゴンブリッジ")).
+                andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void articleSubmitでタイトルだけを送る() throws Exception {
         this.mock.perform((post("/article/submit")).param("title", "ヴァレリー").param("author", ""))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void articleSubmitで著者だけを送る場合() throws Exception {
+    void articleSubmitで著者だけを送る() throws Exception {
         this.mock.perform((post("/article/submit")).param("title", "").param("author", "レオ・シュトラウス"))
                 .andDo(print()).andExpect(status().isOk());
     }
 
     @Test
-    void articleSubmitでタイトルと著者名を送るとき() throws Exception {
+    void articleSubmitでタイトルと著者名を送る() throws Exception {
         this.mock.perform((post("/article/submit")).param("title", "時間").param("author", "中島"))
                 .andDo(print()).andExpect(status().isOk());
     }

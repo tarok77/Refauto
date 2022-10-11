@@ -8,7 +8,7 @@ public class PublicationName {
 
     public PublicationName(String publicationName) {
         //この時点では「雑誌名=英文の雑誌名」となることがありかなり長くなりうる
-        if(publicationName.length() > 100) throw new IllegalArgumentException("掲載誌名が長すぎます。");
+        if(publicationName.length() > 200) throw new IllegalArgumentException("掲載誌名が長すぎます。");
         this.publicationName = publicationName;
     }
 

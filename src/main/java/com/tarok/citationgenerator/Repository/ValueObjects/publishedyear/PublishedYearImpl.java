@@ -15,9 +15,8 @@ public class PublishedYearImpl implements PublishedYear {
     private final YearMonth YearAndMonth;
     public PublishedYearImpl(String yearAndMonth) {
         String tmp = yearAndMonth.replaceAll(" ", "").replaceAll("\\.|-","/");
-        log.info(tmp);
+
         if(tmp.length() > 8) tmp = tmp.substring(0, 7);
-        log.info(tmp);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/M");
         //TODO [19--]という値を持たされているとき変換エラー 不正値で止まらないようにスキップの実装　2014でも停止　1964年10月14日というのも
         //DateTimeParseExceptionの時何をするか

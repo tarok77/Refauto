@@ -8,6 +8,7 @@ import com.tarok.citationgenerator.Service.MakeURL.With;
 import com.tarok.citationgenerator.Service.httpAccess.FromKokkai.BookGetService;
 import com.tarok.citationgenerator.Service.httpAccess.fromCinii.ArticleGetService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,41 +31,21 @@ public class RefautoController {
         this.articleGetService = articleGetService;
     }
 
-    //Formクラスを使うためのメソッド群
-    @ModelAttribute("isbn")
-    public ISBNForm setUpISBNForm() {
-        return new ISBNForm();
-    }
-
-    @ModelAttribute
-    public TitleAndAuthor setUpTitleAndAuthorForm() {
-        return new TitleAndAuthor();
-    }
-
-    @ModelAttribute("form")
-    public BookForView setUpFrom() {
-        return new BookForView();
-    }
-
-    @ModelAttribute("articleForm")
-    public ArticleForView setUpArticleForm() {return new ArticleForView();}
-
-    //ここからマッピングのメソッド
+    //マッピングのメソッド群のはじまり
     @GetMapping("/")
-    public String home(@ModelAttribute("isbn") ISBNForm isbn, @ModelAttribute TitleAndAuthor titleAndAuthor) {
-        return "home";
+    public String home() {
+        return "bookHome";
     }
 
     @GetMapping("/article")
-    public String article(@ModelAttribute TitleAndAuthor titleAndAuthor) {
+    public String article() {
         return "articleHome";
     }
 
     @PostMapping("/submit/isbn")
     //isbnでも二つのレコードが帰る可能性がある　使いまわしと登録データの詳細さの違い
-    //例　https://iss.ndl.go.jp/api/sru?operation=searchRetrieve&maximumRecords=10&query=isbn=9784274226298
     public String submitIsbn(@Validated @ModelAttribute("isbn") ISBNForm isbnForm, BindingResult result, Model model) throws IOException, XMLStreamException {
-        if (result.hasErrors()) return "home";
+        if (result.hasErrors()) return "bookhome";
         //整形し、空のリクエストであれば受け付けずリダイレクト
         String isbn = isbnForm.getIsbn().replaceAll("-| ", "");
         if (isbn.equals("")) return "redirect:/";
@@ -86,7 +67,7 @@ public class RefautoController {
 
     @PostMapping("/submit/title")
     public String submitTitle(@Validated @ModelAttribute TitleAndAuthor titleAndAuthor, BindingResult result, Model model) throws IOException, XMLStreamException {
-        if (result.hasErrors()) return "home";
+        if (result.hasErrors()) return "bookHome";
 
         String title = titleAndAuthor.getTitle();
         String author = titleAndAuthor.getAuthor();
@@ -163,5 +144,53 @@ public class RefautoController {
 
         model.addAttribute("articleMap", articleMap);
         return "citedArticle";
+    }
+
+    //Formクラスを使うためのメソッド群のはじまり
+    @ModelAttribute("isbn")
+    public ISBNForm setUpISBNForm() {
+        return new ISBNForm();
+    }
+
+    @ModelAttribute
+    public TitleAndAuthor setUpTitleAndAuthorForm() {
+        return new TitleAndAuthor();
+    }
+
+    @ModelAttribute("form")
+    public BookForView setUpFrom() {
+        return new BookForView();
+    }
+
+    @ModelAttribute("articleForm")
+    public ArticleForView setUpArticleForm() {return new ArticleForView();}
+
+    //例外処理のメソッド群のはじまり
+    //ログへの記録は発生元でおこなっている
+    @ExceptionHandler(IOException.class)
+    public String IOExceptionHandler(IOException e, Model model) {
+        model.addAttribute("error", "");
+        model.addAttribute("message", "データ変換の過程でエラーが発生しました。(IO)");
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
+    }
+
+    @ExceptionHandler(XMLStreamException.class)
+    public String XMLExceptionHandler(XMLStreamException e, Model model) {
+        model.addAttribute("error", "");
+        model.addAttribute("message", "データ変換の過程でエラーが発生しました。(XML)");
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String OtherExceptionHandler(Exception e, Model model) {
+        model.addAttribute("error", "");
+        model.addAttribute("message", "データ変換の過程でエラーが発生しました。(other)");
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
     }
 }
