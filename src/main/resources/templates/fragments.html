@@ -2,26 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Refauto</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link active" href="/">本を探す</a>
-                <a class="nav-link active" href="/article">論文を探す</a>
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About</a>
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">ご利用にあたっての注意</a>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Refauto</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" href="/">本を探す</a>
+                    <a class="nav-link active" href="/article">論文を探す</a>
+                    <a class="nav-link active" href="/about">About</a>
+                    <a class="nav-link active" href="/caution">ご利用にあたっての注意</a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 </header>
 <footer th:fragment="footer">
-    <footer class="mt-auto text-light bg-dark py-2 text-center">
-        <p>当サイトは次のAPIを利用しています。 ・国立国会図書館サーチAPI ・国立情報学研究所学術コンテンツサービスウェブAPI</p>
+    <footer class="text-light bg-dark py-1">
+        <div class="container">
+            <div class="text-center">
+                <h6>当サイトは以下のAPIを利用しています。</h6>
+                <ul style="list-style: none;">
+                    <li>国立国会図書館サーチAPI</li>
+                    <li>国立情報学研究所学術コンテンツサービスウェブAPI
+                </ul>
+            </div>
+        </div>
     </footer>
 </footer>
 </html>
