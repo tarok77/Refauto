@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="/css/aboutAndCaution.css" rel="stylesheet" media="all">
+    <title>About</title>
+
+<body>
+<div th:replace="fragments::header"></div>
+<div class="container-fluid">
+    <div class="row vh-100">
+
+        <div class="w-100 p-3">
+            <div class="w-100"><br></div>
+            <div class="card p-3">
+                <h3>このサイトについて</h3>
+                <p>このサイトは論文やレポートなどで必須となる参考文献表記のサポートをおこなうサイトです。</p>
+                <h5>使い方</h5>
+                <ol>
+                    <li>まずお探しの文献のタイトルや著者名を入力し送信してください。</li>
+                    <li>候補となる文献一覧が表示されます。そのなかからお探しの文献を選択してください。
+                        図書の場合、入力されている情報の詳細さの違いから同じ本が複数回表示されることがあります。
+                        必要な情報の欠落が少ないものを選んでください。出版年のちがいに特に気を付けてください。
+                    </li>
+                    <li>選んだ文献の参考文献情報が表示されます。三つの参考文献スタイルからふさわしいものを選び、コピーボタン
+                        でコピーしてお使いください。
+                    </li>
+                </ol>
+                <h5>当サイトでは以下のAPIを利用させていただいております。</h5>
+                <ul>
+                    <li>国立国会図書館サーチAPI</li>
+                    <li>国立情報学研究所学術コンテンツサービスウェブAPI</li>
+                </ul>
+                <h5>参考文献の記述スタイル作成にあたっては以下の文献を参考にさせていただきました。</h5>
+                <ul>
+                    <li>河野哲也(2018)『レポート・論文の書き方入門』慶應義塾大学出版会</li>
+                    <li>佐渡島紗織ほか(2020)『レポート・論文をさらによくする「引用」ガイド』大修館書店</li>
+                    <li>藤田節子(2009)『レポート・論文作成のための引用・参考文献の書き方』日外アソシエーツ</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

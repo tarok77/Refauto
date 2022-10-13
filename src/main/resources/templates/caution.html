@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="/css/aboutAndCaution.css" rel="stylesheet" media="all">
+    <title>Caution</title>
+<body>
+<div th:replace="fragments::header"></div>
+<div class="container-fluid">
+    <div class="row vh-100">
+        <div class="w-100 p-3">
+            <div class="w-100"><br></div>
+            <div class="card p-3">
+                <h3>利用上の注意</h3>
+                <ul>
+                    <li>当サイトは文献情報の入力を補助することを目的としており、出力される文献情報の正しさを保証するものではありません。</li>
+                    <li>利用させていただいている元データの都合と、日本での文献表記のルールがまだ統一されているとは言えない現状のため完全な対応は困難です。
+                        ご理解の上、必要な修正を加えてご利用ください。</li>
+                    <li>投稿論文執筆など重要な機会にご利用の場合、必ず投稿誌の規定をご確認ください。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments::footer"></div>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
