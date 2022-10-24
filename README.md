@@ -1,4 +1,4 @@
-# Refauto
+# Refauto (レフォート)
 参考文献情報自動生成サイトRefauto( "https://www.refauto.net" )のコードです。  
 
 使用技術として、サーバーサイドではJava17, Spring Boot 2.7.2(Spring MVC, Thymeleaf), Maven3.8.5, JUnit5, Lombokなどを使用しております。  
